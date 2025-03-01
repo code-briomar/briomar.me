@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Display Markdown</title>
+    <!-- Include marked.js from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link
+      rel="preload"
+      href="../fonts/8cccbd218c3572d3-s.p.ttf"
+      as="font"
+      crossorigin=""
+      type="font/ttf"
+    />
+    <link
+      rel="preload"
+      href="../fonts/a34f9d1faa5f3315-s.p.woff2"
+      as="font"
+      crossorigin=""
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="../fonts/ee43fef3c761122d-s.p.ttf"
+      as="font"
+      crossorigin=""
+      type="font/ttf"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="toggle-container">
+      <input type="checkbox" id="darkModeToggle" />
+      <label for="darkModeToggle" class="toggle-label">Dark Mode</label>
+    </div>
+
+    <div id="content"></div>
+
+    <script>
+      const toggle = document.getElementById("darkModeToggle");
+
+      toggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Fetch the Markdown file (e.g., README.md)
+        fetch("ScannedPDF-to-Word.md")
+          .then((response) => response.text())
+          .then((md) => {
+            // Convert Markdown to HTML
+            document.getElementById("content").innerHTML = marked.parse(md);
+          })
+          .catch((error) => console.error("Error loading Markdown:", error));
+      });
+    </script>
+  </body>
+</html>
