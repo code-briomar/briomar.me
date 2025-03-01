@@ -128,6 +128,7 @@ div.header .img-div {
 }
 
 div.item {
+  margin-top: 10px;
   display: flex;
   flex: auto;
   overflow-y: auto;
@@ -138,6 +139,7 @@ div.item {
   position: relative;
   display: table;
   height: 100%;
+  width: 40%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
@@ -164,6 +166,9 @@ div.item {
 @media (min-width: 62em) {
   #timeline h3 {
     font-size: 1.1em;
+  }
+  #timeline {
+    min-width: 500px;
   }
 }
 #timeline section.year {
@@ -262,6 +267,7 @@ svg {
   color: #fff;
   text-decoration: underline;
   text-underline-offset: 6px;
+  line-height: 1.6rem;
 }
 .dark-mode a:hover {
   color: #626262;
