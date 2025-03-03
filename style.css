@@ -128,7 +128,7 @@ div.header .img-div {
 }
 
 div.item {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   flex: auto;
   overflow-y: auto;
