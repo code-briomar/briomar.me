@@ -564,3 +564,7 @@ table td,
 table th {
   padding: 0.2em 0.5em;
 }
+
+#content {
+  margin: 10px;
+}
