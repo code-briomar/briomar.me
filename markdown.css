@@ -537,3 +537,25 @@ thead tr {
 .dark-mode #darkModeToggle {
   background-color: #e0e0e0;
 }
+
+body {
+  max-width: 100%;
+  padding: 1.6em 1em;
+}
+
+@media (min-width: 768px) {
+  body {
+    max-width: 46em;
+    padding: 1.6em 3.15em;
+  }
+}
+
+table {
+  width: 100%;
+  margin-left: 0;
+}
+
+table td,
+table th {
+  padding: 0.2em 0.5em;
+}
