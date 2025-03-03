@@ -1,3 +1,12 @@
+<br>
+
+<div>
+  <a href="https://github.com/your-username/your-repository">
+    <!-- <img src="../images/github-mark.png" width="30" height="30" alt="Image"> -->
+    GitHub Repository
+  </a>
+</div>
+
 > ### Converting a Scanned PDF to a Word Document using Java
 
 # Table Of Contents
