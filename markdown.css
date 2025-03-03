@@ -173,6 +173,7 @@ body {
   text-rendering: optimizeLegibility;
 
   max-width: 100%;
+  overflow-x: hidden;
   margin: 2em auto;
 
   padding: 1.6em 3.15em;
