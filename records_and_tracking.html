@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Records & Tracking | Downloads Page</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Courier New", Courier, monospace;
+        background-color: #111;
+        color: #eee;
+        font-size: 16px;
+      }
+
+      .mobile-warning {
+        display: none;
+        background-color: #ff3333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .left {
+        width: 60%;
+        padding: 60px;
+        background-color: #1a1a1a;
+        border-right: 2px solid #444;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .left h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+
+      .left p {
+        line-height: 1.8;
+        max-width: 500px;
+        font-weight: 500;
+      }
+
+      .right {
+        width: 40%;
+        padding: 60px;
+        background-color: #0d0d0d;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .download-btn {
+        padding: 15px 40px;
+        font-size: 1.2rem;
+        border: 2px solid #eee;
+        background: transparent;
+        color: #eee;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .download-btn:hover {
+        background-color: #eee;
+        color: #000;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          display: none;
+        }
+
+        .mobile-warning {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-warning">
+      ⚠️ This page is not available on mobile devices. Please use a larger
+      screen.
+    </div>
+
+    <div class="container">
+      <!-- Left Content -->
+      <div class="left">
+        <h1>Records & Tracking</h1>
+        <p>
+          Maintain order. Ensure traceability. Designed for case tracking in
+          Kenyan law firms and courts, this records and tracking system
+          emphasizes accuracy, compliance, and convenience—rooted in a strong,
+          industrial aesthetic. Download the latest version here.
+        </p>
+      </div>
+
+      <!-- Right Content -->
+      <div class="right">
+        <button
+          class="download-btn"
+          onclick="window.location.href='https://github.com/code-briomar/records_and_tracking/releases/latest/download/records-and-tracking_0.1.2_x64-setup.exe'"
+        >
+          Download
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
