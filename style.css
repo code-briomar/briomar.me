@@ -50,7 +50,9 @@ body {
 a {
   color: #50585f;
   text-decoration: underline;
-  text-underline-offset: 6px;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  line-height: 1.6rem;
 }
 a:hover {
   color: #2c3135;
@@ -181,11 +183,11 @@ div.item {
 #timeline section.year section {
   position: relative;
   padding-bottom: 1.25em;
-  margin-bottom: 2.2em;
+  margin-bottom: 0.8em; /* Reduced vertical spacing */
 }
 #timeline section.year section h4 {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  margin-bottom: 0.25rem;
   font-size: 0.9em;
   font-weight: 400;
   line-height: 1.2em;
@@ -193,6 +195,66 @@ div.item {
   padding: 0 0 0 89px;
   color: #c5c5c5;
 }
+
+
+.timeline-item a {
+  font-size: 1.4em !important; /* Larger titles */
+  font-weight: bold; /* Bolder titles */
+  color: #50585f;
+  text-decoration: none;
+}
+
+#timeline section.year section ul li{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+
+#timeline section.year section ul li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+#timeline section.year section ul {
+  font-size: 1.1em;
+}
+
+
+.tag {
+  margin-left: 6px;
+  line-height: 1;
+  background: #2a2a2a;
+  font-size: 0.75em;
+  color: #ccc;
+
+}
+
+/*
+.tag.erp {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.tag.business {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.tag.webapp {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+*/
+
+.tag.aiocr {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+
 @media (min-width: 62em) {
   #timeline section.year section h4 {
     font-size: 1em;
@@ -201,7 +263,7 @@ div.item {
 #timeline section.year section ul {
   list-style-type: none;
   padding: 0 0 0 75px;
-  margin: -1.35rem 0 1em;
+  margin: 0.35rem 0 1em;
   max-width: 32rem;
   font-size: 1em;
 }
@@ -401,4 +463,29 @@ svg {
   color: #e0e0e0;
   transform: scale(1.05);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Project Tags */
+.tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.65em;
+  font-weight: 500;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.dark-mode .tag {
+  opacity: 0.85;
+}
+*/
+
+/*#timeline section.year section ul li a {
+  font-size: 1.4em;
+  font-weight: 500;
+  text-decoration: none;
+  color: #50585f
 }
