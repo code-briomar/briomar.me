@@ -1,113 +1,116 @@
 # PDF to Word Converter
 
-**Turn scanned documents into editable Word files — even if they're just images.**
+## User Guide
 
-[Link to Live Demo or an Upload Button]
+### Turn scanned documents into editable Word files — even if they're just images.
+
+[Link to Live Demo or Upload Button]
 
 ---
 
-## The Problem
-Ever tried to edit a scanned PDF and realized you can't? That's because it's just a picture of text, not actual text. Most converters fail here because they only work with PDFs that already contain selectable text.
+### The Problem
+
+Ever tried to edit a scanned PDF and realized you can't select or modify the text? That's because scanned PDFs are just images of documents, not actual text. Most converters fail with these files because they only work with PDFs that already contain selectable text.
 
 `[Image: Screenshot of a non-selectable scanned PDF]`
 
-## The Solution
-This tool reads the text directly from the images in your scanned PDFs using smart image recognition (a process called OCR) and creates a fully editable Word document from it.
+### The Solution
+
+This tool uses advanced image recognition technology (OCR - Optical Character Recognition) to read text directly from scanned PDF images and converts it into a fully editable Word document.
 
 `[Image: Screenshot of the resulting editable Word document]`
 
-## How It Works
-1.  **Upload** your scanned PDF file.
-2.  **Wait** for a short while (usually 30-60 seconds) while we process it.
-3.  **Download** your new, fully editable Word document.
+### How It Works
 
-`[GIF: A short animation showing the upload -> process -> download flow]`
+1. **Upload** your scanned PDF file
+2. **Wait** 30-90 seconds while we process it
+3. **Download** your new, fully editable Word document
 
-## Features
-✅ Handles scanned PDFs that other converters can't.
-✅ Preserves basic formatting and line breaks.
-✅ Free to use for files up to 5 pages.
-✅ No account or sign-up required.
-✅ Your files are deleted immediately after processing for your privacy.
+`[GIF: Animation showing upload → process → download flow]`
 
-## Limits
--   **Max 5 pages** per document (for the free version).
--   **Max 20MB** file size.
--   Only **.PDF** files are accepted.
--   Processing typically takes **30-90 seconds**, depending on the file size.
+### Features
 
-## Privacy
-Your privacy is our priority. Your files are uploaded, converted, and then **immediately deleted** from our servers. We do not store or review your documents.
+✅ Handles scanned PDFs that other converters can't  
+✅ Preserves basic formatting and line breaks  
+✅ Free to use for files up to 5 pages  
+✅ No account or sign-up required  
+✅ Files deleted immediately after processing
+
+### Limitations
+
+- **Maximum 5 pages** per document (free version)
+- **Maximum 20MB** file size
+- Only **.PDF** files accepted
+- Processing takes **30-90 seconds** depending on file size
+
+### Privacy & Security
+
+Your privacy matters. Files are uploaded, converted, and then **immediately deleted** from our servers. We never store or review your documents.
 
 ---
 
-<details>
-<summary><strong>For Developers: Technical Details</strong></summary>
+## Technical Documentation
 
-<br>
+### For Developers: Implementation Guide
 
-> ### Converting a Scanned PDF to a Word Document using Java
+This section provides technical details for developers who want to understand or implement similar functionality.
 
-*This is the original technical documentation for developers interested in the implementation.*
+**[View GitHub Repository](https://github.com/code-briomar/scannedpdf_to_word)**
 
-<div>
-  <a href="https://github.com/code-briomar/scannedpdf_to_word">
-    GitHub Repository
-  </a>
-</div>
+### Overview
 
-# Table Of Contents
-- Introduction
-- File Structure
-- Data
-- API
-- Utility Methods
+This tool converts scanned PDFs (containing images of text) into editable Word documents using OCR technology. Unlike standard PDF converters, it extracts text from image-based PDFs by processing each page through Tesseract OCR and outputting the results to a .docx file.
 
-# Introduction
+### Technology Stack
 
-Many tools online provide a way of converting PDFs to Word Documents to enable users to edit those documents. Microsoft Word has such an implementation as well, where you can drag and drop your PDF document into a MS Word window and you are prompted if you wish to convert it to an editable document. After a little bit of experimenting with such functionality, I realized scanned pdfs ( those containing images of texts rather than just text ) do not fully become editable, the scanned sections are transferred as images to the word document and hence are still useless to the user.
-This tool's purpose is to take those scanned pdfs, pass them through an OCR, and dump the recovered text into a word document. Simple as that for the **free tier**.
+- **Language:** Java
+- **OCR Engine:** Tesseract
+- **Document Generation:** Apache POI (XWPFDocument)
+- **PDF Processing:** Apache PDFBox
+- **Framework:** Spring Boot
 
-# File Structure
+### Project Structure
 
-- scannedpdf_to_word (root)
-  - src
-    - main
-      - java
-        - org.scannedpdf_to_word
-          - ScannedPDFToWord.java
-      - resources
-        - application.properties
-    - test
-      - java
-  - tessdata
-  - application.yml
-  - Dockerfile
-  - pom.xml
-  - README.md
+```
+scannedpdf_to_word/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── org.scannedpdf_to_word/
+│   │   │       └── ScannedPDFToWord.java
+│   │   └── resources/
+│   │       └── application.properties
+│   └── test/
+│       └── java/
+├── tessdata/
+├── application.yml
+├── Dockerfile
+├── pom.xml
+└── README.md
+```
 
-# Data
+### Data Storage
 
-**No Database System is Implemented**. The only data to be processed is the extracted text from the scannedPDFs which are dumped into a word document and exported to a user. **It's cleared from the server, once a download link is generated**.
+No database is implemented. Extracted text is temporarily processed and dumped into a Word document, then immediately cleared from the server once a download link is generated.
 
-# API
+---
 
-This is how you interact with the OCR as a user, making requests to the endpoints I expose.
-The endpoints are :
+## API Reference
 
-- GET /health - For users to check on the health of the API and whether it's available.
-- POST /upload - Users make requests to this endpoint with a scannedPDF file which fires some background workers to start processing the file. The user is also alerted when this occurs.
-- GET /check-status - Users ping this endpoint constantly to check whether the file has been fully processed or not.
-- GET /download - This endpoint is attached the fileID which makes up the download link of the completed processing.
+### Base URL
+```
+http://your-domain.com/api
+```
 
-## 1. GET `/health`
+### Endpoints
 
-### Description
+#### 1. Health Check
 
-Checks if the scanned PDF to Word API is up.
+**GET** `/health`
 
-### Response
+Check if the API is running and available.
 
+**Response:**
 ```json
 {
   "status": "success",
@@ -117,36 +120,33 @@ Checks if the scanned PDF to Word API is up.
 }
 ```
 
-### Code
-
+**Implementation:**
 ```java
 @GetMapping("/health")
-public ResponseEntity health(){
+public ResponseEntity<Map<String,Object>> health() {
     Map<String,Object> response = new HashMap<>();
-    response.put("status","success");
-    response.put("code",200);
-    response.put("message","scanned-pdf-to-word api is up. Make requests to /api/upload");
-    response.put("data",null);
-
+    response.put("status", "success");
+    response.put("code", 200);
+    response.put("message", "scanned-pdf-to-word api is up. Make requests to /api/upload");
+    response.put("data", null);
+    
     return ResponseEntity.status(HttpStatus.OK).body(response);
 }
 ```
 
-`@GetMapping("/health")` annotation maps the method to an HTTP GET request on the `/health` route.
-`public ResponseEntity<Map<String,Object>> health()` defines a method called `health` which returns an HTTP response with a JSON body `<Map<String,Object>>`
-`ResponseEntity` allows the method to return a structured response with a status code e.g 200
-`Map<String, Object> response = new HashMap<>();` creates a hashmap to store the response in key value pairs, which follows a standard structure, `status`,`code`, `message`, `data`
-`ResponseEntity.status(HttpStatus.OK).body(response)` sets the HTTP response status to 200.
-`.body(response)` sends the response JSON to the client.
+---
 
-## 2. POST `/upload`
+#### 2. Upload PDF
 
-### Description
+**POST** `/upload`
 
-The `/upload` endpoint allows users to upload a **PDF file** that will be **converted into images** and **processed using OCR (Optical Character Recognition)**. The processing runs asynchronously in the background, and the API immediately responds with a `fileID` for tracking.
+Upload a PDF file for processing. The file is converted to images and processed asynchronously using OCR.
 
-### Successful Response
+**Request:**
+- Content-Type: `multipart/form-data`
+- Parameter: `pdfFile` (file)
 
+**Response:**
 ```json
 {
   "status": "success",
@@ -158,16 +158,18 @@ The `/upload` endpoint allows users to upload a **PDF file** that will be **conv
 }
 ```
 
-### Code
-
+**Implementation:**
 ```java
-
 @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile file) {
     try {
+        // Generate unique file ID
         String fileID = UUID.randomUUID().toString();
+        
+        // Convert MultipartFile to File
         File pdfFile = convertMultiPartToFile(file);
-
+        
+        // Start asynchronous processing
         new Thread(() -> {
             try {
                 convertPdfToImage(pdfFile);
@@ -176,185 +178,155 @@ public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile f
                 throw new RuntimeException(e);
             }
         }).start();
-
-
-        // Immediate Response
+        
+        // Return immediate response
         Map<String,Object> response = new HashMap<>();
-        response.put("status","success");
-        response.put("code",200);
-        response.put("message","Processing started.");
-
-        // When Data Exists
+        response.put("status", "success");
+        response.put("code", 200);
+        response.put("message", "Processing started.");
+        
         Map<String,Object> data = new HashMap<>();
-        data.put("fileID",fileID);
-
+        data.put("fileID", fileID);
         response.put("data", data);
-
+        
         return ResponseEntity.status(HttpStatus.OK).body(response);
+        
     } catch (Exception e) {
         e.printStackTrace();
-
-        // Error response
+        
         Map<String,Object> errorResponse = new HashMap<>();
-        errorResponse.put("status","error");
-        errorResponse.put("code",500);
-        errorResponse.put("message","an error occurred. please try again");
-        errorResponse.put("data",null);
-
+        errorResponse.put("status", "error");
+        errorResponse.put("code", 500);
+        errorResponse.put("message", "An error occurred. Please try again.");
+        errorResponse.put("data", null);
+        
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 }
 ```
 
-`@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)` This annotation tells Spring boot 1. that this method handles POST requests sent to the `/upload`endpoint. 2. It expects the request to have a file attached as`multipart/form-data`
-`public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile file)` This method accepts a file from the request (`MultipartFile file`)
-Returns a `ResponseEntity` which represents an HTTP response.
-`String fileID = UUID.randomUUID().toString();` generates a unique file id that helps keep track of the file during processing.
-`File pdfFile = convertMultiPartToFile(file);` the multipart file is not directly usable as a standard Java `File` , it's converted to one before processing. This is a **CRUCIAL** step.
+**Key Points:**
+- File is processed asynchronously in a background thread
+- Immediate response with `fileID` for tracking
+- Errors are logged to `output.log` in production
 
-```java
-new Thread(() -> {
-    try {
-        convertPdfToImage(pdfFile);
-        processImagesForOCR(fileID);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-}).start();
-```
+---
 
-This starts a new thread to process the file `asynchronously` so that the API can return a response **immediately** without waiting on this process which is heavy based on the file size.
+#### 3. Check Processing Status
 
-- The thread:
-  1. Converts the **PDF into images** using `convertPdfToImage(pdfFile)`.
-  2. Processes those images using OCR with `processImagesForOCR(fileID)`.
-- If an **exception occurs**, it throws a `RuntimeException`.
-  `e.printStackTrace();` Errors are simply printed to the console. In the production Linux server #linux_server all the printed out errors are dumped into an `output.log` file.
-  `return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);`
-  The error response is sent back with **500 Internal Server Error** status.
+**GET** `/check-status`
 
-## 3. GET `/check-status`
+Check if the uploaded PDF has been fully processed and is ready for download.
 
-### Description
+**Parameters:**
+- `fileID` (required): The unique file identifier returned from `/upload`
 
-to check whether their uploaded PDF has been processed into a Word document (`.docx`). It helps determine if the file is ready for download or still being processed.
-
-### Successful Response
-
+**Response (Ready):**
 ```json
 {
+  "status": "success",
   "code": 200,
+  "message": "file is ready for download",
   "data": {
     "download_url": "/download?fileID=41cfe18f-7297-4fa9-8e4c-bfce3637f1ae"
-  },
-  "message": "file is ready for download",
-  "status": "success"
+  }
 }
 ```
 
-### Pending Response
-
+**Response (Processing):**
 ```json
 {
+  "status": "success",
   "code": 200,
-  "message": "file is still being processed. please wait",
-  "status": "success"
+  "message": "file is still being processed. please wait"
 }
 ```
 
-### Code
-
+**Implementation:**
 ```java
 @GetMapping("/check-status")
-public ResponseEntity<Object> checkFileStatus(@RequestParam("fileID") String fileID){
+public ResponseEntity<Object> checkFileStatus(@RequestParam("fileID") String fileID) {
     File outputFile = new File("output_" + fileID + ".docx");
-
-
-    if(outputFile.exists()){
+    
+    if (outputFile.exists()) {
         Map<String,Object> response = new HashMap<>();
-        response.put("status","success");
-        response.put("code",200);
-        response.put("message","file is ready for download");
-        //data exists
+        response.put("status", "success");
+        response.put("code", 200);
+        response.put("message", "file is ready for download");
+        
         Map<String,Object> data = new HashMap<>();
-        data.put("download_url","/download?fileID="+fileID);
-        response.put("data",data);
+        data.put("download_url", "/download?fileID=" + fileID);
+        response.put("data", data);
+        
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-    //TODO::Temporary File Created During Processing ( with fileID as the name)
-    //TODO::and deleted after processing. To help differentiate processing files and
-    //TODO::none existent files
-        //Processing
-        Map<String,Object> response = new HashMap<>();
-        response.put("status","success");
-        response.put("code",200);
-        response.put("message","file is still being processed. please wait");
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    
+    // Still processing
+    Map<String,Object> response = new HashMap<>();
+    response.put("status", "success");
+    response.put("code", 200);
+    response.put("message", "file is still being processed. please wait");
+    
+    return ResponseEntity.status(HttpStatus.OK).body(response);
 }
 ```
 
-`File outputFile = new File("output_" + fileID + ".docx");` it constructs the name of the output .docx file using the fileID so that it's searchable. It also assumes the output file is stored in the root.
-`if(outputFile.exists()){` it checks if the file exists, meaning it's ready to be downloaded.
-A download URL is constructed and sent in the data array. Looks something like `/download?fileID=12345`
+---
 
-## 4. GET `/download`
+#### 4. Download Converted File
 
-### Description
+**GET** `/download`
 
-allows users to **download** a processed Word document (`.docx`) using a unique `fileID`
+Download the processed Word document.
 
-### Successful Response
+**Parameters:**
+- `fileID` (required): The unique file identifier
 
-The .docx file
+**Response:**
+- Content-Type: `application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+- File download with name: `output_<fileID>.docx`
 
-### Code
+**Error Response:**
+```json
+{
+  "status": "error",
+  "code": 404,
+  "message": "file does not exist.",
+  "data": null
+}
+```
 
+**Implementation:**
 ```java
 @GetMapping("/download")
 public ResponseEntity<Object> downloadFile(@RequestParam("fileID") String fileID) throws IOException {
     File outputFile = new File("output_" + fileID + ".docx");
-
+    
     if (!outputFile.exists()) {
         Map<String,Object> errorResponse = new HashMap<>();
-        errorResponse.put("status","error");
-        errorResponse.put("code",200);
-        errorResponse.put("message","file does not exist.");
-        errorResponse.put("data","null");
+        errorResponse.put("status", "error");
+        errorResponse.put("code", 404);
+        errorResponse.put("message", "file does not exist.");
+        errorResponse.put("data", null);
+        
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
-
+    
     byte[] fileBytes = java.nio.file.Files.readAllBytes(outputFile.toPath());
-
+    
     return ResponseEntity.ok()
-            .header("Content-Disposition", "attachment; filename=" +outputFile.getName())
+            .header("Content-Disposition", "attachment; filename=" + outputFile.getName())
             .body(fileBytes);
 }
 ```
 
-`byte[] fileBytes = Files.readAllBytes(outputFile.toPath());` Read the file's contents into a byte array.
+---
 
-```java
-return ResponseEntity.ok()
-        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + outputFile.getName())
-        .body(fileBytes);
-```
+## Core Utility Methods
 
-Send the file as a downloadable response.
-`Content-Disposition: attachment; filename=output_<fileID>.docx` this tells the browser to download the file instead of displaying it.
+### 1. Convert MultipartFile to File
 
-# Utility Methods
-
-These are the backbone methods running in the background to make sure the file is processed well.
-
-## 1. `private void convertMultipartFile(...)`
-
-### Description
-
-converts a `MultipartFile` (an uploaded file) into a **temporary `File` object** stored on the server.
-
-### Code
+Converts an uploaded `MultipartFile` into a temporary `File` object for processing.
 
 ```java
 private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -364,45 +336,40 @@ private File convertMultiPartToFile(MultipartFile file) throws IOException {
 }
 ```
 
-`File tempFile = File.createTempFile("temp", file.getOriginalFilename());` creates a temporary file with the prefix `temp` but the OS will add random characters after to avoid conflicts. It is then stored in a temporary directory, `java.io.tmpdir`
-`file.transferTo(tempFile);` This transfers the contents of the uploaded file to the temporary file.
-`return tempFile;` return the temporary file to be processed further.
+**Process:**
+1. Creates a temporary file with prefix "temp" + random characters
+2. Stores in system temporary directory (`java.io.tmpdir`)
+3. Transfers uploaded file contents to temporary file
+4. Returns file object for further processing
 
-## 2. `private void processImagesForOCR(String fileID)`
+---
 
-## Description
+### 2. Process Images with OCR
 
-This method processes images using **Tesseract OCR**, extracts text, and saves it to a **Word document (`.docx`)**. After processing, it deletes the images.
-
-## Code
+Extracts text from images using Tesseract OCR and generates a Word document.
 
 ```java
 private void processImagesForOCR(String fileID) {
     File uploadsDir = new File("uploads");
     File[] files = uploadsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".jpg"));
-
+    
     if (files != null && files.length > 0) {
         ITesseract tesseract = new Tesseract();
-        // Set the correct path to the tessdata folder
         tesseract.setDatapath(System.getProperty("user.dir") + File.separator + "tessdata");
-        tesseract.setPageSegMode(1); // PSM_AUTO for layout analysis
-        tesseract.setOcrEngineMode(1); // Set OCR mode to LSTM
+        tesseract.setPageSegMode(1);  // PSM_AUTO for layout analysis
+        tesseract.setOcrEngineMode(1); // LSTM OCR engine
+        
         try (XWPFDocument document = new XWPFDocument()) {
             for (File imageFile : files) {
                 String result = tesseract.doOCR(imageFile);
-
-                if (result.isEmpty()) {
-                    System.out.println("OCR returned no text for " + imageFile.getName());
-                } else {
+                
+                if (!result.isEmpty()) {
                     String[] lines = result.split("\n");
                     for (String line : lines) {
+                        if (line.trim().isEmpty()) continue;
+                        
                         XWPFParagraph paragraph = document.createParagraph();
                         XWPFRun run = paragraph.createRun();
-
-                        if (line.trim().isEmpty()) {
-                            continue; // Skip empty lines
-                        }
-
                         run.setText(line.trim());
                         run.setFontSize(12);
                         paragraph.setAlignment(ParagraphAlignment.LEFT);
@@ -410,12 +377,14 @@ private void processImagesForOCR(String fileID) {
                     System.out.println("Processed image: " + imageFile.getName());
                 }
             }
-
-            File outputFile = new File("output_"+fileID+".docx");
+            
+            // Save document
+            File outputFile = new File("output_" + fileID + ".docx");
             try (FileOutputStream out = new FileOutputStream(outputFile)) {
                 document.write(out);
             }
-
+            
+            // Clean up images
             for (File imageFile : files) {
                 if (imageFile.delete()) {
                     System.out.println("Deleted image: " + imageFile.getName());
@@ -423,6 +392,7 @@ private void processImagesForOCR(String fileID) {
                     System.err.println("Failed to delete image: " + imageFile.getName());
                 }
             }
+            
         } catch (TesseractException | IOException e) {
             System.err.println("Error during OCR processing: " + e.getMessage());
             e.printStackTrace();
@@ -433,8 +403,112 @@ private void processImagesForOCR(String fileID) {
 }
 ```
 
-## 3. `private void convertPDFToImage(...)`
+**Process:**
+1. Finds all `.jpg` files in the `uploads` directory
+2. Initializes Tesseract with language data and optimal settings
+3. Processes each image through OCR
+4. Extracts text line by line and adds to Word document
+5. Saves document with unique `fileID`
+6. Deletes processed images
 
-### Description
+---
 
-takes a **PDF file** as input and converts its pages into **JPEG images**, storing them in a directory named `
+### 3. Convert PDF to Images
+
+Converts each page of a PDF into JPEG images for OCR processing.
+
+```java
+private void convertPdfToImage(File pdfFile) throws IOException {
+    try (PDDocument document = PDDocument.load(pdfFile)) {
+        PDFRenderer pdfRenderer = new PDFRenderer(document);
+        
+        for (int page = 0; page < document.getNumberOfPages(); page++) {
+            BufferedImage image = pdfRenderer.renderImageWithDPI(page, 300, ImageType.RGB);
+            
+            File outputDir = new File("uploads");
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+            
+            File outputFile = new File(outputDir, "page_" + (page + 1) + ".jpg");
+            ImageIO.write(image, "JPEG", outputFile);
+            
+            System.out.println("Converted page " + (page + 1) + " to image");
+        }
+    }
+}
+```
+
+**Process:**
+1. Loads PDF document
+2. Renders each page at 300 DPI for optimal OCR accuracy
+3. Saves each page as a JPEG image in the `uploads` directory
+4. Names files sequentially: `page_1.jpg`, `page_2.jpg`, etc.
+
+---
+
+## Configuration
+
+### Tesseract Setup
+
+Place Tesseract language data files in the `tessdata/` directory at the project root. The application expects:
+
+```
+tessdata/
+└── eng.traineddata  # English language data
+```
+
+### Application Properties
+
+Configure in `application.properties` or `application.yml`:
+
+```yaml
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+```
+
+---
+
+## Deployment
+
+### Docker Support
+
+A `Dockerfile` is included for containerized deployment:
+
+```dockerfile
+FROM openjdk:17-jdk-slim
+RUN apt-get update && apt-get install -y tesseract-ocr
+COPY tessdata /app/tessdata
+COPY target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
+### Production Considerations
+
+- All errors are logged to `output.log`
+- Temporary files are stored in system temp directory
+- Processed images are automatically deleted after conversion
+- Output files should be cleaned up periodically (implement scheduled cleanup)
+
+---
+
+## Future Enhancements
+
+- **Status tracking:** Create temporary marker files during processing to differentiate between processing and non-existent files
+- **Multi-language support:** Add support for additional Tesseract language packs
+- **Batch processing:** Handle multiple file uploads simultaneously
+- **Premium tier:** Support for files larger than 5 pages
+- **Format preservation:** Improve formatting retention (headers, tables, columns)
+
+---
+
+## License
+
+[Add your license information here]
+
+## Contributing
+
+Contributions welcome! Please submit pull requests to the [GitHub repository](https://github.com/code-briomar/scannedpdf_to_word).
