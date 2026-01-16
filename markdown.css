@@ -568,4 +568,20 @@ table th {
 #content {
   margin: 10px;
   overflow: visible;
+
+}
+
+#toc {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  max-width: 280px;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-size: 0.9em;
+}
+
+#md-content {
+  max-width: 46em;
+  margin: auto;
 }

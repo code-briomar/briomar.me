@@ -4,23 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <title>Display Markdown</title>
+  <title>Markdown Viewer</title>
 
   <!-- Icons -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-  <!-- Markdown-it -->
-  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js"></script>
-
-  <!-- Fonts -->
-  <link rel="preload" href="../fonts/8cccbd218c3572d3-s.p.ttf" as="font" crossorigin type="font/ttf" />
-  <link rel="preload" href="../fonts/a34f9d1faa5f3315-s.p.woff2" as="font" crossorigin type="font/woff2" />
-  <link rel="preload" href="../fonts/ee43fef3c761122d-s.p.ttf" as="font" crossorigin type="font/ttf" />
-
   <!-- Markdown styles -->
   <link rel="stylesheet" href="../markdown.css" />
+
+  <!-- Optional highlight.js theme (won’t break if unused) -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
 </head>
 
 <body class="dark-mode">
@@ -35,42 +30,126 @@
          height="30" />
   </button>
 
+  <aside id="toc"></aside>
   <main id="md-content"></main>
 
+  <!-- Markdown-it -->
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14/dist/markdown-it.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it-anchor@8/dist/markdownItAnchor.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it-toc-done-right@4/dist/markdownItTocDoneRight.umd.js"></script>
+
   <script>
-    // Dark mode toggle
+    /* -------------------------------------------------------
+       OPTIONAL Highlight.js loader (non-fatal)
+    ------------------------------------------------------- */
+    function tryLoadHighlightJS() {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src =
+          "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js";
+        script.onload = () => resolve(window.hljs || null);
+        script.onerror = () => resolve(null); // <- IMPORTANT
+        document.head.appendChild(script);
+      });
+    }
+
+    /* -------------------------------------------------------
+       Chunking for large Markdown
+    ------------------------------------------------------- */
+    const CHUNK_SIZE = 120;
+
+    function splitMarkdown(text) {
+      const lines = text.split("\n");
+      const chunks = [];
+      for (let i = 0; i < lines.length; i += CHUNK_SIZE) {
+        chunks.push(lines.slice(i, i + CHUNK_SIZE).join("\n"));
+      }
+      return chunks;
+    }
+
+    async function renderIncrementally(md, chunks) {
+      const container = document.getElementById("md-content");
+      container.innerHTML = "";
+
+      for (const chunk of chunks) {
+        const section = document.createElement("section");
+        section.innerHTML = md.render(chunk);
+        container.appendChild(section);
+        await new Promise(r => requestAnimationFrame(r));
+      }
+
+      const toc = document.querySelector(".toc");
+      if (toc) {
+        document.getElementById("toc").innerHTML = toc.outerHTML;
+        toc.remove();
+      }
+    }
+
+    /* -------------------------------------------------------
+       MAIN INIT
+    ------------------------------------------------------- */
+    (async function init() {
+      const hljs = await tryLoadHighlightJS(); // may be null
+
+      const md = window.markdownit({
+        html: false,
+        linkify: true,
+        typographer: true,
+        highlight(code, lang) {
+          // If highlight.js exists → use it
+          if (hljs && lang && hljs.getLanguage(lang)) {
+            return `<pre><code class="hljs">${
+              hljs.highlight(code, { language: lang }).value
+            }</code></pre>`;
+          }
+
+          if (hljs) {
+            return `<pre><code class="hljs">${
+              hljs.highlightAuto(code).value
+            }</code></pre>`;
+          }
+
+          // Fallback: no highlighting, never crashes
+          return `<pre><code>${md.utils.escapeHtml(code)}</code></pre>`;
+        }
+      })
+      .use(window.markdownItAnchor, {
+        permalink: window.markdownItAnchor.permalink.linkInsideHeader({
+          symbol: "§",
+          placement: "before"
+        })
+      })
+      .use(window.markdownItTocDoneRight, {
+        level: [1, 2, 3],
+        containerClass: "toc",
+        listType: "ul"
+      });
+
+      fetch("ScannedPDF-to-Word.md")
+        .then(res => res.text())
+        .then(text => {
+          const chunks = splitMarkdown(text);
+          renderIncrementally(md, chunks);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("md-content").innerHTML =
+            "<p style='color:red'>Failed to load Markdown.</p>";
+        });
+    })();
+
+    /* -------------------------------------------------------
+       Dark mode toggle
+    ------------------------------------------------------- */
     const toggle = document.getElementById("darkModeToggle");
-    const toggleButton = document.getElementById("toggle-button-img");
+    const toggleImg = document.getElementById("toggle-button-img");
 
     toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-      toggleButton.src = document.body.classList.contains("dark-mode")
+      toggleImg.src = document.body.classList.contains("dark-mode")
         ? "../images/moon.png"
         : "../images/sun.png";
     });
-
-    // Markdown-it instance (SAFE + ROBUST)
-    const md = window.markdownit({
-      html: false,        // ⛔ prevents raw HTML from breaking DOM
-      linkify: true,
-      typographer: true,
-      breaks: false
-    });
-
-    // Load and render Markdown
-    fetch("ScannedPDF-to-Word.md")
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to load markdown");
-        return res.text();
-      })
-      .then(text => {
-        document.getElementById("md-content").innerHTML = md.render(text);
-      })
-      .catch(err => {
-        document.getElementById("md-content").innerHTML =
-          "<p style='color:red'>Error loading markdown.</p>";
-        console.error(err);
-      });
   </script>
 
 </body>
