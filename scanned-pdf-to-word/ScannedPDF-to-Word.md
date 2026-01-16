@@ -1,15 +1,67 @@
+# PDF to Word Converter
+
+**Turn scanned documents into editable Word files — even if they're just images.**
+
+[Link to Live Demo or an Upload Button]
+
+---
+
+## The Problem
+Ever tried to edit a scanned PDF and realized you can't? That's because it's just a picture of text, not actual text. Most converters fail here because they only work with PDFs that already contain selectable text.
+
+`[Image: Screenshot of a non-selectable scanned PDF]`
+
+## The Solution
+This tool reads the text directly from the images in your scanned PDFs using smart image recognition (a process called OCR) and creates a fully editable Word document from it.
+
+`[Image: Screenshot of the resulting editable Word document]`
+
+## How It Works
+1.  **Upload** your scanned PDF file.
+2.  **Wait** for a short while (usually 30-60 seconds) while we process it.
+3.  **Download** your new, fully editable Word document.
+
+`[GIF: A short animation showing the upload -> process -> download flow]`
+
+## Features
+✅ Handles scanned PDFs that other converters can't.
+✅ Preserves basic formatting and line breaks.
+✅ Free to use for files up to 5 pages.
+✅ No account or sign-up required.
+✅ Your files are deleted immediately after processing for your privacy.
+
+## Limits
+-   **Max 5 pages** per document (for the free version).
+-   **Max 20MB** file size.
+-   Only **.PDF** files are accepted.
+-   Processing typically takes **30-90 seconds**, depending on the file size.
+
+## Privacy
+Your privacy is our priority. Your files are uploaded, converted, and then **immediately deleted** from our servers. We do not store or review your documents.
+
+---
+
+<details>
+<summary><strong>For Developers: Technical Details</strong></summary>
+
 <br>
+
+> ### Converting a Scanned PDF to a Word Document using Java
+
+*This is the original technical documentation for developers interested in the implementation.*
 
 <div>
   <a href="https://github.com/code-briomar/scannedpdf_to_word">
-    <!-- <img src="../images/github-mark.png" width="30" height="30" alt="Image"> -->
     GitHub Repository
   </a>
 </div>
 
-> ### Converting a Scanned PDF to a Word Document using Java
-
 # Table Of Contents
+- Introduction
+- File Structure
+- Data
+- API
+- Utility Methods
 
 # Introduction
 
@@ -37,14 +89,10 @@ This tool's purpose is to take those scanned pdfs, pass them through an OCR, and
 # Data
 
 **No Database System is Implemented**. The only data to be processed is the extracted text from the scannedPDFs which are dumped into a word document and exported to a user. **It's cleared from the server, once a download link is generated**.
-An example of a scannedPDF is linked below : #input
-![[briane.pdf]]
-
-An example of the output is linked below: #output![[output_1738774914610.docx]]
 
 # API
 
-Yes. This is how you interact with the OCR as a user, making requests to the endpoints I expose.
+This is how you interact with the OCR as a user, making requests to the endpoints I expose.
 The endpoints are :
 
 - GET /health - For users to check on the health of the API and whether it's available.
@@ -158,10 +206,8 @@ public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile f
 }
 ```
 
-`@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	This annotation tells Spring boot 1. that this method handles POST requests sent to the `/upload`endpoint. 2. It expects the request to have a file attached as`multipart/form-data`
-`public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile file)
-This method accepts a file from the request (`MultipartFile file`)
+`@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)` This annotation tells Spring boot 1. that this method handles POST requests sent to the `/upload`endpoint. 2. It expects the request to have a file attached as`multipart/form-data`
+`public ResponseEntity<Object> uploadPdf(@RequestParam("pdfFile") MultipartFile file)` This method accepts a file from the request (`MultipartFile file`)
 Returns a `ResponseEntity` which represents an HTTP response.
 `String fileID = UUID.randomUUID().toString();` generates a unique file id that helps keep track of the file during processing.
 `File pdfFile = convertMultiPartToFile(file);` the multipart file is not directly usable as a standard Java `File` , it's converted to one before processing. This is a **CRUCIAL** step.
@@ -175,7 +221,6 @@ new Thread(() -> {
         throw new RuntimeException(e);
     }
 }).start();
-
 ```
 
 This starts a new thread to process the file `asynchronously` so that the API can return a response **immediately** without waiting on this process which is heavy based on the file size.
@@ -185,26 +230,8 @@ This starts a new thread to process the file `asynchronously` so that the API ca
   2. Processes those images using OCR with `processImagesForOCR(fileID)`.
 - If an **exception occurs**, it throws a `RuntimeException`.
   `e.printStackTrace();` Errors are simply printed to the console. In the production Linux server #linux_server all the printed out errors are dumped into an `output.log` file.
-  `return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+  `return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);`
   The error response is sent back with **500 Internal Server Error** status.
-
-### Flow of Execution
-
-1. The user **uploads a PDF file**.
-2. The file is converted to a **Java File**.
-3. A **new thread** starts:
-   - Converts the PDF into images.
-   - Runs **OCR processing** on those images.
-4. The API **immediately** responds with:
-   - A **200 OK** status.
-   - A **file ID** for tracking.
-5. If an error occurs:
-   - A **500 error response** is returned.
-
-### Why Use Asynchronous Processing?
-
-- Without it, the client **must wait** until processing completes (which could take several seconds or minutes).
-- Asynchronous processing allows the API to **return a response instantly**, while the actual file processing runs in the background.
 
 ## 3. GET `/check-status`
 
@@ -272,32 +299,6 @@ public ResponseEntity<Object> checkFileStatus(@RequestParam("fileID") String fil
 `if(outputFile.exists()){` it checks if the file exists, meaning it's ready to be downloaded.
 A download URL is constructed and sent in the data array. Looks something like `/download?fileID=12345`
 
-```
-//TODO::Temporary File Created During Processing ( with fileID as the name)
-//TODO::and deleted after processing. To help differentiate processing files and
-//TODO::none existent files
-```
-
-- **Planned improvement:** The code does not currently check whether the file is actively being processed.
-- One **solution** is to create a **temporary marker file** (e.g., `processing_12345.tmp`) and delete it after processing.
-
-### Flow of Execution
-
-1. The client sends a **GET request** to check the status of a file.
-2. The method **constructs the expected output file name**.
-3. If the file **exists**, the API responds with:
-   - A **200 OK** status.
-   - A **download link** for the file.
-4. If the file **does not exist**, the API assumes it is **still processing** and returns:
-   - A **200 OK** status.
-   - A message instructing the client to wait.
-
-### Why Use This Approach?
-
-- **Simple and efficient:** Uses `File.exists()` to check if the output file is ready.
-- **Provides real-time status updates** for users waiting for their files.
-- **Improves user experience** by letting them check progress instead of repeatedly trying to download a non-existent file.
-
 ## 4. GET `/download`
 
 ### Description
@@ -338,7 +339,6 @@ public ResponseEntity<Object> downloadFile(@RequestParam("fileID") String fileID
 return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + outputFile.getName())
         .body(fileBytes);
-
 ```
 
 Send the file as a downloadable response.
@@ -368,14 +368,6 @@ private File convertMultiPartToFile(MultipartFile file) throws IOException {
 `file.transferTo(tempFile);` This transfers the contents of the uploaded file to the temporary file.
 `return tempFile;` return the temporary file to be processed further.
 
-#### Potential Issues & Fixes
-
-1. **Temporary File Cleanup**
-   - The method creates **temporary files** but doesn’t delete them.
-   - Consider using `tempFile.deleteOnExit();` to remove the file when the JVM exits.
-2. **Handling Large Files** - If the uploaded file is large, storing it in memory temporarily could cause **OutOfMemoryError**. - Instead, use a **stream-based approach**.
-   The fix : `tempFile.deleteOnExit(); // Ensure the file is deleted when the program exits`
-
 ## 2. `private void processImagesForOCR(String fileID)`
 
 ## Description
@@ -395,7 +387,6 @@ private void processImagesForOCR(String fileID) {
         tesseract.setDatapath(System.getProperty("user.dir") + File.separator + "tessdata");
         tesseract.setPageSegMode(1); // PSM_AUTO for layout analysis
         tesseract.setOcrEngineMode(1); // Set OCR mode to LSTM
-        //tesseract.setConfigs(Arrays.asList("hocr")); // Generate hOCR output
         try (XWPFDocument document = new XWPFDocument()) {
             for (File imageFile : files) {
                 String result = tesseract.doOCR(imageFile);
@@ -403,35 +394,28 @@ private void processImagesForOCR(String fileID) {
                 if (result.isEmpty()) {
                     System.out.println("OCR returned no text for " + imageFile.getName());
                 } else {
-                    // Split the result into lines to analyze formatting
                     String[] lines = result.split("\n");
                     for (String line : lines) {
                         XWPFParagraph paragraph = document.createParagraph();
                         XWPFRun run = paragraph.createRun();
 
-                        // Apply formatting based on simple heuristics
                         if (line.trim().isEmpty()) {
                             continue; // Skip empty lines
-                        } else if (line.matches("(?i).*(\\b[A-Z]{2,}\\b).*")) {
-                            //run.setBold(true); // Set bold for potential headings
                         }
 
-                        // Add text to the run
                         run.setText(line.trim());
-                        run.setFontSize(12); // Set a default font size
-                        paragraph.setAlignment(ParagraphAlignment.LEFT); // Set alignment
+                        run.setFontSize(12);
+                        paragraph.setAlignment(ParagraphAlignment.LEFT);
                     }
                     System.out.println("Processed image: " + imageFile.getName());
                 }
             }
 
-            // Save the Word document
             File outputFile = new File("output_"+fileID+".docx");
             try (FileOutputStream out = new FileOutputStream(outputFile)) {
                 document.write(out);
             }
 
-            // Delete the images after processing
             for (File imageFile : files) {
                 if (imageFile.delete()) {
                     System.out.println("Deleted image: " + imageFile.getName());
@@ -449,171 +433,8 @@ private void processImagesForOCR(String fileID) {
 }
 ```
 
-```java
-File uploadsDir = new File("uploads");
-File[] files = uploadsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".jpg"));
-```
-
-This creates a `File` object for the uploads directory.
-It then lists all the images inside `uploads` directory.
-
-```java
-ITesseract tesseract = new Tesseract();
-tesseract.setDatapath(System.getProperty("user.dir") + File.separator + "tessdata");
-tesseract.setPageSegMode(1); // PSM_AUTO for layout analysis
-tesseract.setOcrEngineMode(1); // Set OCR mode to LSTM
-```
-
-Configure Tesseract by creating a new Tesseract OCR engine. Sets the path to `tessdata` which we put in the root of the app. ( tessdata contains the trained language files. )
-`setPageSegMode(1)` ensures automatic page segmentation.
-`setOcrEngineMode(1)` uses the LSTM neural network for high accuracy
-
-```java
-try (XWPFDocument document = new XWPFDocument()) {
-    for (File imageFile : files) {
-        String result = tesseract.doOCR(imageFile);
-```
-
-Created a word doc `XWPFDocument`
-iterates through each `.jpg` file and extracts the text using `.doOCR(imageFile)`
-
-```java
-String[] lines = result.split("\n");
-for (String line : lines) {
-    XWPFParagraph paragraph = document.createParagraph();
-    XWPFRun run = paragraph.createRun();
-
-    if (line.trim().isEmpty()) {
-        continue; // Skip empty lines
-    } else if (line.matches("(?i).*(\\b[A-Z]{2,}\\b).*")) {
-        // run.setBold(true); // Uncomment to bold potential headings
-    }
-
-    run.setText(line.trim());
-    run.setFontSize(12);
-    paragraph.setAlignment(ParagraphAlignment.LEFT);
-}
-System.out.println("Processed image: " + imageFile.getName());
-```
-
-Splits extracted text into lines
-Creates paragraphs in the Word document:
-
-- Skips **empty lines**.
-- (Optional) Detects **headings** (all uppercase words).
-- **Sets font size & alignment**.
-
-```java
-File outputFile = new File("output_" + fileID + ".docx");
-try (FileOutputStream out = new FileOutputStream(outputFile)) {
-    document.write(out);
-}
-```
-
-Save the extracted text into a word document named `"output_<fileID>.docx"`.
-
-```java
-for (File imageFile : files) {
-    if (imageFile.delete()) {
-        System.out.println("Deleted image: " + imageFile.getName());
-    } else {
-        System.err.println("Failed to delete image: " + imageFile.getName());
-    }
-}
-```
-
-Delete the processed images.
-
 ## 3. `private void convertPDFToImage(...)`
 
 ### Description
 
-takes a **PDF file** as input and converts its pages into **JPEG images**, storing them in a directory named `"uploads"`. This method uses the **Apache PDFBox** library to process the PDF.
-
-### Code
-
-```java
-private  void convertPdfToImage(File pdfFile) throws IOException {
-    PDDocument document = PDDocument.load(pdfFile);
-    PDFRenderer pdfRenderer = new PDFRenderer(document);
-    File uploadsDir = new File("uploads");
-
-    // Create the directory if it doesn't exist
-    if (!uploadsDir.exists()) {
-        uploadsDir.mkdir();
-    }
-
-    int pagesToBeProcessed = Math.min(document.getNumberOfPages(),5); // Limit to 30 on a free tier of some sorts.
-
-
-    for (int page = 0; page < pagesToBeProcessed; ++page) {
-        BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 300);
-        String imagePath = "uploads/page-" + (page + 1) + ".jpg";
-        ImageIO.write(bim, "jpg", new File(imagePath));
-    }
-
-    document.close();
-}
-```
-
-```java
-PDDocument document = PDDocument.load(pdfFile);
-PDFRenderer pdfRenderer = new PDFRenderer(document);
-```
-
-This loads the pdf doc into the memory. Then creates a PDFRenderer to extract pages as images.
-
-`int pagesToBeProcessed = Math.min(document.getNumberOfPages(), 5); // Limit to 5 pages` Limits the processing to a maximum of 5 pages, useful for tier based users, premium users could get a cap of about 80.
-
-```java
-for (int page = 0; page < pagesToBeProcessed; ++page) {
-    BufferedImage bim = pdfRenderer.renderImageWithDPI(page, 300);
-    String imagePath = "uploads/page-" + (page + 1) + ".jpg";
-    ImageIO.write(bim, "jpg", new File(imagePath));
-}
-```
-
-- **Loops through each page (up to 5 pages max)**.
-- **Renders the page at 300 DPI** for high-quality images.
-- **Saves the image in JPEG format** inside the "uploads" folder.
-
-```java
-document.close();
-```
-
-**Closes the PDF file** to free system resources.
-
-## 4. `public ResponseEntity handleMaxSizeException`
-
-## Description
-
-handles cases where a user tries to **upload a file that exceeds the maximum allowed size**.  
-It catches `MaxUploadSizeExceededException` and returns an **HTTP 413 (Payload Too Large) response**
-
-## Code
-
-```java
-@ExceptionHandler(MaxUploadSizeExceededException.class)
-public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException exc) {
-    System.err.println("File upload error: " + exc.getMessage());
-    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-            .body("File size exceeds limit!");
-}
-```
-
-`@ExceptionHandler(MaxUploadSizeExceededException.class)` Indicates that this method is an exception handler for **MaxUploadSizeExceededException** class and the catches the exception when the uploaded file exceeds the size limit.
-
-```yml
-%% application.yml %%
-server:
-  port: ${PORT:8080}
-
-spring:
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 20MB
-      max-request-size: 20MB
-```
-
-The maximum size is defined in the `application.yml` file.
+takes a **PDF file** as input and converts its pages into **JPEG images**, storing them in a directory named `

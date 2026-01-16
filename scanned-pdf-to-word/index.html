@@ -1,102 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Display Markdown</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <!-- Include marked.js from a CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Display Markdown</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-    <link
-      rel="preload"
-      href="../fonts/8cccbd218c3572d3-s.p.ttf"
-      as="font"
-      crossorigin=""
-      type="font/ttf"
-    />
-    <link
-      rel="preload"
-      href="../fonts/a34f9d1faa5f3315-s.p.woff2"
-      as="font"
-      crossorigin=""
-      type="font/woff2"
-    />
-    <link
-      rel="preload"
-      href="../fonts/ee43fef3c761122d-s.p.ttf"
-      as="font"
-      crossorigin=""
-      type="font/ttf"
-    />
+  <!-- Include marked.js from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../markdown.css" />
-  </head>
-  <body>
-    <a href="../"> Home </a>
-    <button class="toggle-container" id="darkModeToggle">
-      <img
-        id="toggle-button-img"
-        src="../images/sun.png"
-        alt="sun_icon"
-        width="30em"
-        height="30em"
-      />
-    </button>
+  <link rel="preload" href="../fonts/8cccbd218c3572d3-s.p.ttf" as="font" crossorigin="" type="font/ttf" />
+  <link rel="preload" href="../fonts/a34f9d1faa5f3315-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  <link rel="preload" href="../fonts/ee43fef3c761122d-s.p.ttf" as="font" crossorigin="" type="font/ttf" />
 
-    <div id="content"></div>
+  <link rel="stylesheet" href="../markdown.css" />
+</head>
 
-    <script>
+<body>
+  <a href="../"> Home </a>
+  <button class="toggle-container" id="darkModeToggle">
+    <img id="toggle-button-img" src="../images/sun.png" alt="sun_icon" width="30em" height="30em" />
+  </button>
+
+  <div id="content"></div>
+
+  <script>
+    document.body.classList.toggle("dark-mode");
+    const toggle = document.getElementById("darkModeToggle");
+    const toggleButton = document.querySelector("#toggle-button-img");
+
+    toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-      const toggle = document.getElementById("darkModeToggle");
-      const toggleButton = document.querySelector("#toggle-button-img");
 
-      toggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
+      // Change the icon on the toggle button
+      if (toggleButton.getAttribute("src") === "../images/sun.png") {
+        toggleButton.setAttribute("src", "../images/moon.png");
+      } else {
+        toggleButton.setAttribute("src", "../images/sun.png");
+      }
 
-        // Change the icon on the toggle button
-        if (toggleButton.getAttribute("src") === "../images/sun.png") {
-          toggleButton.setAttribute("src", "../images/moon.png");
-        } else {
-          toggleButton.setAttribute("src", "../images/sun.png");
-        }
+      //Change the background color
+    });
 
-        //Change the background color
-      });
+    // document
+    //   .querySelector(".toggle-container")
+    //   .addEventListener("click", () => {
+    //     document.body.classList.toggle("dark-mode");
 
-      // document
-      //   .querySelector(".toggle-container")
-      //   .addEventListener("click", () => {
-      //     document.body.classList.toggle("dark-mode");
+    //     // Changes to the toggle button
+    //     if (toggle.getAttribute("src") === "../images/sun.png") {
+    //       toggle.setAttribute("src", "../images/moon.png");
+    //     } else {
+    //       toggle.setAttribute("src", "../images/sun.png");
+    //     }
+    //   });
 
-      //     // Changes to the toggle button
-      //     if (toggle.getAttribute("src") === "../images/sun.png") {
-      //       toggle.setAttribute("src", "../images/moon.png");
-      //     } else {
-      //       toggle.setAttribute("src", "../images/sun.png");
-      //     }
-      //   });
+    document.addEventListener("DOMContentLoaded", () => {
+      // Fetch the Markdown file (e.g., README.md)
+      fetch("ScannedPDF-to-Word.md")
+        .then((response) => response.text())
+        .then((md) => {
+          // Convert Markdown to HTML
+          document.getElementById("content").innerHTML = marked.parse(md, { sanitize: false });
+        })
+        .catch((error) => console.error("Error loading Markdown:", error));
+    });
+    
+  </script>
+</body>
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Fetch the Markdown file (e.g., README.md)
-        fetch("ScannedPDF-to-Word.md")
-          .then((response) => response.text())
-          .then((md) => {
-            // Convert Markdown to HTML
-            document.getElementById("content").innerHTML = marked.parse(md);
-          })
-          .catch((error) => console.error("Error loading Markdown:", error));
-      });
-    </script>
-  </body>
 </html>
