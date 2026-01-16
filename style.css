@@ -13,21 +13,25 @@
 }
 
 html {
-  height: 100%;
+  height: auto; /* FIX: prevent mobile flex height trap */
 }
 
 body {
-  height: inherit;
+  min-height: 100vh; /* FIX: ensure full-height background */
   display: flex;
   flex-direction: column;
+
   font-family: "CustomFont", ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
   letter-spacing: 1px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   color: #79838c;
+  background-color: #ffffff; /* explicit light mode */
 }
+
 
 .social-icons {
   display: flex;
@@ -73,31 +77,20 @@ div.header {
   padding: 1rem;
   position: relative;
 }
+
 div.header:after {
   content: "";
   position: absolute;
   bottom: -5rem;
-  left: 0rem;
+  left: 0;
   height: 5.1rem;
-  display: block;
   width: 100%;
   z-index: 300;
-  background: -moz-linear-gradient(top, white 20%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    top,
-    white 20%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
     to bottom,
-    white 20%,
+    #ffffff 20%,
     rgba(255, 255, 255, 0) 100%
   );
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#00ffffff",GradientType=0 );
-  /* IE6-9 */
 }
 
 div.header img {
@@ -142,13 +135,13 @@ div.header .img-div {
   justify-content: center;
 }
 
+
 div.item {
-  margin-top: 20px;
-  display: flex;
-  flex: auto;
+  flex: 1;
   overflow-y: auto;
-  padding: 0rem 1rem 0rem 1rem;
+  background-color: transparent; /* FIX */
 }
+
 #timeline {
   position: relative;
   display: table;
@@ -285,6 +278,9 @@ div.item {
   #timeline section.year section ul {
     font-size: 1.1em;
     padding: 0 0 0 81px;
+  }
+}
+
 .blog-section {
   padding: 1rem;
   max-width: 40%;
@@ -321,7 +317,7 @@ div.item {
   color: #555;
   line-height: 1.6;
 }
-}
+
 #timeline section.year section ul:last-child {
   margin-bottom: 0;
 }
@@ -414,8 +410,13 @@ svg {
   background: #1f1f1f;
   color: #e0e0e0;
 }
+
 .dark-mode div.header:after {
-  background: linear-gradient(to bottom, #1f1f1f 20%, rgba(31, 31, 31, 0) 100%);
+  background: linear-gradient(
+    to bottom,
+    #1f1f1f 20%,
+    rgba(31, 31, 31, 0) 100%
+  );
 }
 
 .dark-mode div.header h1 {
@@ -536,9 +537,18 @@ svg {
   color: #b0b0b0;
 }
 
-/*#timeline section.year section ul li a {
+#timeline section.year section ul li a {
   font-size: 1.4em;
   font-weight: 500;
   text-decoration: none;
   color: #50585f
+}
+
+/* =========================
+   DARK MODE (AUTHORITATIVE)
+========================= */
+
+body.dark-mode {
+  background-color: #121212 !important;
+  color: #e0e0e0;
 }
