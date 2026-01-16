@@ -1,75 +1,77 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
   <title>Display Markdown</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-  <!-- Include marked.js from a CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-  <link rel="preload" href="../fonts/8cccbd218c3572d3-s.p.ttf" as="font" crossorigin="" type="font/ttf" />
-  <link rel="preload" href="../fonts/a34f9d1faa5f3315-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
-  <link rel="preload" href="../fonts/ee43fef3c761122d-s.p.ttf" as="font" crossorigin="" type="font/ttf" />
+  <!-- Markdown-it -->
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js"></script>
 
+  <!-- Fonts -->
+  <link rel="preload" href="../fonts/8cccbd218c3572d3-s.p.ttf" as="font" crossorigin type="font/ttf" />
+  <link rel="preload" href="../fonts/a34f9d1faa5f3315-s.p.woff2" as="font" crossorigin type="font/woff2" />
+  <link rel="preload" href="../fonts/ee43fef3c761122d-s.p.ttf" as="font" crossorigin type="font/ttf" />
+
+  <!-- Markdown styles -->
   <link rel="stylesheet" href="../markdown.css" />
 </head>
 
-<body>
-  <a href="../"> Home </a>
+<body class="dark-mode">
+
+  <a href="../">Home</a>
+
   <button class="toggle-container" id="darkModeToggle">
-    <img id="toggle-button-img" src="../images/sun.png" alt="sun_icon" width="30em" height="30em" />
+    <img id="toggle-button-img"
+         src="../images/sun.png"
+         alt="toggle"
+         width="30"
+         height="30" />
   </button>
 
-  <div id="content"></div>
+  <main id="md-content"></main>
 
   <script>
-    document.body.classList.toggle("dark-mode");
+    // Dark mode toggle
     const toggle = document.getElementById("darkModeToggle");
-    const toggleButton = document.querySelector("#toggle-button-img");
+    const toggleButton = document.getElementById("toggle-button-img");
 
     toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-
-      // Change the icon on the toggle button
-      if (toggleButton.getAttribute("src") === "../images/sun.png") {
-        toggleButton.setAttribute("src", "../images/moon.png");
-      } else {
-        toggleButton.setAttribute("src", "../images/sun.png");
-      }
-
-      //Change the background color
+      toggleButton.src = document.body.classList.contains("dark-mode")
+        ? "../images/moon.png"
+        : "../images/sun.png";
     });
 
-    // document
-    //   .querySelector(".toggle-container")
-    //   .addEventListener("click", () => {
-    //     document.body.classList.toggle("dark-mode");
-
-    //     // Changes to the toggle button
-    //     if (toggle.getAttribute("src") === "../images/sun.png") {
-    //       toggle.setAttribute("src", "../images/moon.png");
-    //     } else {
-    //       toggle.setAttribute("src", "../images/sun.png");
-    //     }
-    //   });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      // Fetch the Markdown file (e.g., README.md)
-      fetch("ScannedPDF-to-Word.md")
-        .then((response) => response.text())
-        .then((md) => {
-          // Convert Markdown to HTML
-          document.getElementById("content").innerHTML = marked.parse(md, { sanitize: false });
-        })
-        .catch((error) => console.error("Error loading Markdown:", error));
+    // Markdown-it instance (SAFE + ROBUST)
+    const md = window.markdownit({
+      html: false,        // ⛔ prevents raw HTML from breaking DOM
+      linkify: true,
+      typographer: true,
+      breaks: false
     });
-    
+
+    // Load and render Markdown
+    fetch("ScannedPDF-to-Word.md")
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to load markdown");
+        return res.text();
+      })
+      .then(text => {
+        document.getElementById("md-content").innerHTML = md.render(text);
+      })
+      .catch(err => {
+        document.getElementById("md-content").innerHTML =
+          "<p style='color:red'>Error loading markdown.</p>";
+        console.error(err);
+      });
   </script>
-</body>
 
+</body>
 </html>
