@@ -1,7 +1,7 @@
 <br>
 
 <div>
-  <a href="https://github.com/your-username/your-repository">
+  <a href="https://github.com/code-briomar/scannedpdf_to_word">
     <!-- <img src="../images/github-mark.png" width="30" height="30" alt="Image"> -->
     GitHub Repository
   </a>
