@@ -3,154 +3,448 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Markdown Viewer</title>
+  <title>PDF to Word Converter | Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-dark: #4f46e5;
+      --bg: #ffffff;
+      --bg-secondary: #f8fafc;
+      --sidebar-bg: #0f172a;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --text-sidebar: #e2e8f0;
+      --border: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --code-bg: #f1f5f9;
+      --accent: #8b5cf6;
+    }
 
-  <!-- Icons -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    body.dark-mode {
+      --bg: #0a0e1a;
+      --bg-secondary: #111827;
+      --sidebar-bg: #1a1f35;
+      --text: #e2e8f0;
+      --text-light: #94a3b8;
+      --text-sidebar: #cbd5e1;
+      --border: #1e293b;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --code-bg: #1e293b;
+    }
 
-  <!-- Markdown styles -->
-  <link rel="stylesheet" href="../markdown.css" />
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  <!-- Optional highlight.js theme (won’t break if unused) -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Sidebar Drawer */
+    aside {
+      width: 280px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: var(--sidebar-bg);
+      padding: 2rem 1.5rem;
+      overflow-y: auto;
+      box-shadow: 4px 0 24px var(--shadow);
+      z-index: 1000;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    aside.closed {
+      transform: translateX(-100%);
+    }
+
+    /* Mobile overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-sidebar);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    #toc-container ul {
+      list-style: none;
+    }
+
+    #toc-container li {
+      margin: 0.5rem 0;
+    }
+
+    #toc-container a {
+      display: block;
+      padding: 0.6rem 1rem;
+      color: var(--text-sidebar);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      opacity: 0.8;
+    }
+
+    #toc-container a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* Main Content */
+    main {
+      margin-left: 280px;
+      padding: 2rem;
+      max-width: 900px;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    main.expanded {
+      margin-left: 0;
+    }
+
+    /* Top Controls */
+    .controls {
+      position: fixed;
+      top: 1.5rem;
+      right: 2rem;
+      display: flex;
+      gap: 0.75rem;
+      z-index: 100;
+    }
+
+    .btn-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .btn-icon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+      background: var(--primary);
+      color: white;
+    }
+
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 100;
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+      color: var(--text);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    code {
+      background: var(--code-bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9em;
+      color: var(--primary-dark);
+    }
+
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      aside {
+        transform: translateX(-100%);
+      }
+
+      aside.open {
+        transform: translateX(0);
+      }
+
+      main {
+        margin-left: 0;
+        padding: 1.5rem;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .controls {
+        top: 1.5rem;
+        right: 1.5rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-top: 4rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      aside {
+        width: 85%;
+      }
+
+      .controls {
+        gap: 0.5rem;
+      }
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
 </head>
 
 <body class="dark-mode">
 
-  <a href="../">Home</a>
+  <div class="overlay" id="overlay"></div>
 
-  <button class="toggle-container" id="darkModeToggle">
-    <img id="toggle-button-img"
-         src="../images/sun.png"
-         alt="toggle"
-         width="30"
-         height="30" />
+  <button class="btn-icon menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
   </button>
 
-  <aside id="toc"></aside>
-  <main id="md-content"></main>
+  <aside id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="fas fa-file-word"></i>
+      </div>
+      <span class="brand-text">DocPortal</span>
+    </div>
+    <div id="toc-container">
+      <p class="nav-label">Navigation</p>
+    </div>
+  </aside>
 
-  <!-- Markdown-it -->
+  <div class="controls">
+    <a href="../" class="btn-icon" title="Go Home">
+      <i class="fas fa-home"></i>
+    </a>
+    <button id="themeToggle" class="btn-icon" title="Toggle Theme">
+      <i class="fas fa-sun" id="themeIcon"></i>
+    </button>
+  </div>
+
+  <main id="content">
+    <article id="md-content">
+      <p>Loading documentation...</p>
+    </article>
+  </main>
+
   <script src="https://cdn.jsdelivr.net/npm/markdown-it@14/dist/markdown-it.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/markdown-it-anchor@8/dist/markdownItAnchor.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/markdown-it-toc-done-right@4/dist/markdownItTocDoneRight.umd.js"></script>
 
   <script>
-    /* -------------------------------------------------------
-       OPTIONAL Highlight.js loader (non-fatal)
-    ------------------------------------------------------- */
-    function tryLoadHighlightJS() {
-      return new Promise((resolve) => {
-        const script = document.createElement("script");
-        script.src =
-          "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js";
-        script.onload = () => resolve(window.hljs || null);
-        script.onerror = () => resolve(null); // <- IMPORTANT
-        document.head.appendChild(script);
-      });
-    }
-
-    /* -------------------------------------------------------
-       Chunking for large Markdown
-    ------------------------------------------------------- */
-    const CHUNK_SIZE = 120;
-
-    function splitMarkdown(text) {
-      const lines = text.split("\n");
-      const chunks = [];
-      for (let i = 0; i < lines.length; i += CHUNK_SIZE) {
-        chunks.push(lines.slice(i, i + CHUNK_SIZE).join("\n"));
-      }
-      return chunks;
-    }
-
-    async function renderIncrementally(md, chunks) {
-      const container = document.getElementById("md-content");
-      container.innerHTML = "";
-
-      for (const chunk of chunks) {
-        const section = document.createElement("section");
-        section.innerHTML = md.render(chunk);
-        container.appendChild(section);
-        await new Promise(r => requestAnimationFrame(r));
-      }
-
-      const toc = document.querySelector(".toc");
-      if (toc) {
-        document.getElementById("toc").innerHTML = toc.outerHTML;
-        toc.remove();
-      }
-    }
-
-    /* -------------------------------------------------------
-       MAIN INIT
-    ------------------------------------------------------- */
-    (async function init() {
-      const hljs = await tryLoadHighlightJS(); // may be null
-
-      const md = window.markdownit({
-        html: false,
-        linkify: true,
-        typographer: true,
-        highlight(code, lang) {
-          // If highlight.js exists → use it
-          if (hljs && lang && hljs.getLanguage(lang)) {
-            return `<pre><code class="hljs">${
-              hljs.highlight(code, { language: lang }).value
-            }</code></pre>`;
-          }
-
-          if (hljs) {
-            return `<pre><code class="hljs">${
-              hljs.highlightAuto(code).value
-            }</code></pre>`;
-          }
-
-          // Fallback: no highlighting, never crashes
-          return `<pre><code>${md.utils.escapeHtml(code)}</code></pre>`;
-        }
+    // Markdown Setup
+    const md = window.markdownit({
+      html: true,
+      linkify: true,
+      typographer: true
+    })
+    .use(window.markdownItAnchor, {
+      permalink: window.markdownItAnchor.permalink.linkInsideHeader({
+        symbol: '<i class="fas fa-link" style="font-size: 0.6em; opacity: 0.5;"></i>',
+        placement: 'before'
       })
-      .use(window.markdownItAnchor, {
-        permalink: window.markdownItAnchor.permalink.linkInsideHeader({
-          symbol: "§",
-          placement: "before"
-        })
-      })
-      .use(window.markdownItTocDoneRight, {
-        level: [1, 2, 3],
-        containerClass: "toc",
-        listType: "ul"
-      });
-
-      fetch("ScannedPDF-to-Word.md")
-        .then(res => res.text())
-        .then(text => {
-          const chunks = splitMarkdown(text);
-          renderIncrementally(md, chunks);
-        })
-        .catch(err => {
-          console.error(err);
-          document.getElementById("md-content").innerHTML =
-            "<p style='color:red'>Failed to load Markdown.</p>";
-        });
-    })();
-
-    /* -------------------------------------------------------
-       Dark mode toggle
-    ------------------------------------------------------- */
-    const toggle = document.getElementById("darkModeToggle");
-    const toggleImg = document.getElementById("toggle-button-img");
-
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      toggleImg.src = document.body.classList.contains("dark-mode")
-        ? "../images/moon.png"
-        : "../images/sun.png";
+    })
+    .use(window.markdownItTocDoneRight, {
+      containerClass: "toc-list",
+      listType: "ul",
+      level: [1, 2, 3]
     });
-  </script>
 
+    // Load Documentation
+    async function loadDoc() {
+      const container = document.getElementById("md-content");
+      const tocContainer = document.getElementById("toc-container");
+      
+      try {
+        const response = await fetch("ScannedPDF-to-Word.md");
+        const text = await response.text();
+        
+        container.innerHTML = md.render(text);
+        
+        const toc = container.querySelector(".toc-list");
+        if (toc) {
+          const nav = document.createElement('nav');
+          nav.appendChild(toc);
+          tocContainer.innerHTML += nav.outerHTML;
+          toc.remove();
+        }
+      } catch (e) {
+        container.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error loading documentation.</div>`;
+      }
+    }
+
+    // Theme Toggle
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+      themeIcon.className = isDark ? "fas fa-sun" : "fas fa-moon";
+      localStorage.setItem("pref-theme", isDark ? "dark" : "light");
+    });
+
+    // Check saved theme preference
+    if (localStorage.getItem("pref-theme") === "light") {
+      document.body.classList.remove("dark-mode");
+      themeIcon.className = "fas fa-moon";
+    }
+
+    // Drawer Navigation
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const overlay = document.getElementById("overlay");
+    const mainContent = document.getElementById("content");
+
+    function openDrawer() {
+      sidebar.classList.add("open");
+      overlay.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer() {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    menuToggle.addEventListener("click", openDrawer);
+    overlay.addEventListener("click", closeDrawer);
+
+    // Close drawer when clicking a link (mobile)
+    sidebar.addEventListener("click", (e) => {
+      if (e.target.tagName === "A" && window.innerWidth <= 1024) {
+        closeDrawer();
+      }
+    });
+
+    // Handle resize
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1024) {
+        closeDrawer();
+        mainContent.classList.remove("expanded");
+      }
+    });
+
+    loadDoc();
+  </script>
 </body>
 </html>
