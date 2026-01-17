@@ -140,6 +140,8 @@ div.item {
   flex: 1;
   overflow-y: auto;
   background-color: transparent; /* FIX */
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #timeline {
@@ -147,7 +149,7 @@ div.item {
   display: table;
   height: 100%;
   width: 100%;
-  max-width: 40%;
+  max-width: 80%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 6rem;
@@ -204,10 +206,12 @@ div.item {
 
 
 .timeline-item a {
-  font-size: 1.4em !important; /* Larger titles */
-  font-weight: bold; /* Bolder titles */
+  font-size: 1.4em !important;
+  font-weight: bold;
   color: #50585f;
-  text-decoration: none;
+  text-decoration: underline; 
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
 }
 
 #timeline section.year section ul li{
@@ -537,12 +541,11 @@ svg {
   color: #b0b0b0;
 }
 
-#timeline section.year section ul li a {
+/* #timeline section.year section ul li a {
   font-size: 1.4em;
   font-weight: 500;
-  text-decoration: none;
-  color: #50585f
-}
+  text-decoration: underline;
+} */
 
 /* =========================
    DARK MODE (AUTHORITATIVE)

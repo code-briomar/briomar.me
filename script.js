@@ -206,14 +206,8 @@ function generateEntryHTML(entry) {
   const tagsHTML = generateTagsHTML(entry.tags);
   
   // Determine link behavior
-  let titleLink;
-  if (entry.link) {
-    titleLink = `<a href="${entry.link}" target="_blank" rel="noopener noreferrer">${entry.title}</a>`;
-  } else if (entry.repo_link) {
-    titleLink = `<a href="${entry.repo_link}" target="_blank" rel="noopener noreferrer">${entry.title}</a>`;
-  } else {
-    titleLink = `<span class="timeline-title">${entry.title}</span>`;
-  }
+  let titleLink = `<a href="${entry?.link || "javascript:void(0)" }" rel="noopener noreferrer">${entry?.title}</a>`;
+
   
   return `
     <h4>${entry.date}</h4>
