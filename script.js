@@ -46,112 +46,387 @@ const tagStyles = {
   "Business Tools": { bg: "#e0e7ff", text: "#3730a3" },
   "Education": { bg: "#fef9c3", text: "#854d0e" },
   "Entertainment": { bg: "#f3e8ff", text: "#6b21a8" },
-  "Productivity": { bg: "#dbeafe", text: "#1e40af" }
+  "Productivity": { bg: "#dbeafe", text: "#1e40af" },
+  "Agriculture": { bg: "#e0f2fe", text: "#0369a1" },
+  "Portfolio": { bg: "#fef3c7", text: "#92400e" },
+  "Events": { bg: "#ede9fe", text: "#5b21b6" },
+  "Community": { bg: "#dcfce7", text: "#166534" },
+  "Information": { bg: "#fff7ed", text: "#9a3412" },
+  "Law": { bg: "#fce7f3", text: "#9d174d" },
+  "Utilities": { bg: "#ecfeff", text: "#155e75" },
+  "Health": { bg: "#fee2e2", text: "#991b1b" },
+  "Social": { bg: "#e0e7ff", text: "#3730a3" },
+  "Mobile": { bg: "#fef9c3", text: "#854d0e" }
 };
 
 // ============================================
 // TIMELINE DATA
 // ============================================
 const timelineData = {
-  2025: [
-    {
-      date: "Feb 24",
-      title: "PDF to Word Converter",
-      link: "./scanned-pdf-to-word/index.html",
-      repo_link: "https://github.com/code-briomar/scannedpdf_to_word",
-      description: "Turn scanned documents into editable Word files automatically using OCR technology.",
-      tags: ["Document Tools", "AI Tools"]
-    }
-  ],
-
-  2024: [
-    {
-      date: "Jan 12",
-      title: "Shop Cash Register System",
-      link: "",
-      repo_link: "",
-      description: "Complete system for stores to process sales and accept payments.",
-      tags: ["Retail", "Business Tools"]
-    },
-    {
-      date: "Jun 18",
-      title: "San Code Online Editor",
-      link: "",
-      repo_link: "",
-      description: "Write and edit code directly in your web browser.",
-      tags: ["Developer Tools"]
-    },
-    {
-      date: "Jun 22",
-      title: "Chatbot Builder",
-      link: "",
-      repo_link: "",
-      description: "Tool to create automated chat assistants for websites.",
-      tags: ["Customer Service", "AI Tools"]
-    },
-    {
-      date: "Jul 2",
-      title: "AI Chat Integration",
-      link: "",
-      repo_link: "",
-      description: "Connect Google's AI assistant to chat applications.",
-      tags: ["AI Tools"]
-    },
-    {
-      date: "Aug 1",
-      title: "Hospital Finder Map",
-      link: "",
-      repo_link: "",
-      description: "Interactive map showing all major hospitals in Kenya.",
-      tags: ["Healthcare"]
-    },
-    {
-      date: "Aug 17",
-      title: "M-Pesa Payment System",
-      link: "",
-      repo_link: "",
-      description: "Accept mobile money payments from customers.",
-      tags: ["Payments"]
-    },
-    {
-      date: "Sep 21",
-      title: "Fantasy Football Helper",
-      link: "",
-      repo_link: "",
-      description: "Get recommendations for your fantasy sports team captain.",
-      tags: ["Sports"]
-    }
-  ],
-
-  2023: [
-    {
-      date: "Nov 22",
-      title: "Online Pharmacy App",
-      link: "",
-      repo_link: "",
-      description: "Manage prescriptions, inventory, and medicine sales remotely.",
-      tags: ["Healthcare", "Business Tools"]
-    }
-  ],
-
-  2022: [
-    {
-      date: "Sep 29",
-      title: "Patient Records System",
-      link: "",
-      repo_link: "",
-      description: "Digital system for storing and managing patient medical records.",
-      tags: ["Healthcare"]
-    },
-    {
-      date: "Dec 29",
-      title: "Document Filing System",
-      link: "",
-      repo_link: "",
-      description: "Organize and track company documents digitally.",
-      tags: ["Business Tools"]
-    }
-  ]
+    "2026": [
+        {
+            "date": "Jan 4",
+            "title": "Caregiver Web App",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/caregiver_web_app",
+            "description": "A web application for caregivers to manage their clients and appointments.",
+            "tags": ["Healthcare", "Business Tools"]
+        },
+        {
+            "date": "Jan 13",
+            "title": "Farmers Leaf Doctor",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/farmers-leaf-doctor",
+            "description": "An application to diagnose plant diseases from leaf images.",
+            "tags": ["AI Tools", "Agriculture"]
+        }
+    ],
+    "2025": [
+        {
+            "date": "Feb 27",
+            "title": "briomar.me",
+            "link": "https://briomar.me",
+            "repo_link": "https://github.com/code-briomar/briomar.me",
+            "description": "My personal website and portfolio.",
+            "tags": ["Portfolio"]
+        },
+        {
+            "date": "Mar 18",
+            "title": "C-Work API",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/c-work-api",
+            "description": "An API for managing work-related tasks.",
+            "tags": ["Business Tools"]
+        },
+        {
+            "date": "Jun 4",
+            "title": "Event Promotion and Dissemination in a Campus Environment",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/Event-Promotion-and-Dissemination-in-a-Campus-Environment",
+            "description": "A system for promoting and disseminating event information on campus.",
+            "tags": ["Events", "Education"]
+        },
+        {
+            "date": "Jan 1",
+            "title": "Local Insights KE",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/local_insights_ke",
+            "description": "A platform for sharing local insights and knowledge in Kenya.",
+            "tags": ["Community", "Information"]
+        },
+        {
+            "date": "Mar 23",
+            "title": "Lomogan Skuli",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/lomogan-skuli",
+            "description": "An e-learning platform.",
+            "tags": ["Education"]
+        },
+        {
+            "date": "Mar 21",
+            "title": "MG Advocates Website",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/mg-advocates-website",
+            "description": "The official website for MG Advocates.",
+            "tags": ["Law"]
+        },
+        {
+            "date": "Feb 24",
+            "title": "Scanned PDF to Word",
+            "link": "./scanned-pdf-to-word/index.html",
+            "repo_link": "https://github.com/code-briomar/scannedpdf_to_word",
+            "description": "Turn scanned documents into editable Word files automatically using OCR technology.",
+            "tags": ["Document Tools", "AI Tools"]
+        }
+    ],
+    "2024": [
+        {
+            "date": "Mar 22",
+            "title": "Briomar Utility TS PKG",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/briomar-utility-ts-pkg",
+            "description": "A TypeScript package with utility functions.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Jun 22",
+            "title": "Chat-Flow API",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/chat-flow-api",
+            "description": "An API for creating chatbots.",
+            "tags": ["AI Tools", "Developer Tools"]
+        },
+        {
+            "date": "Aug 18",
+            "title": "ChatFlow",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/chatFlow",
+            "description": "A chatbot application.",
+            "tags": ["AI Tools"]
+        },
+        {
+            "date": "Apr 22",
+            "title": "Daraja-Rust-API",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/daraja-rust-api",
+            "description": "A Rust API for the M-Pesa Daraja API.",
+            "tags": ["Payments", "Developer Tools"]
+        },
+        {
+            "date": "Aug 8",
+            "title": "Downloads Organiser",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/downloads-organiser",
+            "description": "A tool for organizing downloaded files.",
+            "tags": ["Utilities"]
+        },
+        {
+            "date": "Jul 2",
+            "title": "Google Gemini Proxy for ChatFlow",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/google-gemini-proxy-for-chatflow",
+            "description": "A proxy for using Google Gemini with ChatFlow.",
+            "tags": ["AI Tools", "Developer Tools"]
+        },
+        {
+            "date": "Jan 21",
+            "title": "Java Leetcode Scripts",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/java-leetcode-scripts",
+            "description": "A collection of Java scripts for solving Leetcode problems.",
+            "tags": ["Developer Tools", "Education"]
+        },
+        {
+            "date": "Jun 20",
+            "title": "KE Accountability",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/ke-accountability",
+            "description": "A project to promote accountability in Kenya.",
+            "tags": ["Community"]
+        },
+        {
+            "date": "Aug 15",
+            "title": "Learning Rust",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/learning-rust",
+            "description": "A repository for my journey of learning Rust.",
+            "tags": ["Developer Tools", "Education"]
+        },
+        {
+            "date": "May 1",
+            "title": "Mewing Counter",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/mewing-counter",
+            "description": "An app to count mewing sessions.",
+            "tags": ["Health"]
+        },
+        {
+            "date": "Aug 31",
+            "title": "Minigrep",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/minigrep",
+            "description": "A mini version of the grep command-line tool.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Jul 23",
+            "title": "MOH Code",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/moh-code",
+            "description": "A collection of code related to the Ministry of Health.",
+            "tags": ["Healthcare"]
+        },
+        {
+            "date": "Aug 18",
+            "title": "Ollama App",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/ollama-app",
+            "description": "An application that uses the Ollama API.",
+            "tags": ["AI Tools"]
+        },
+        {
+            "date": "Jan 12",
+            "title": "POS System using AL in D-365",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/POS-System-using-AL-in-D-365",
+            "description": "A Point of Sale system using AL in Dynamics 365.",
+            "tags": ["Business Tools", "Retail"]
+        },
+        {
+            "date": "Jun 22",
+            "title": "Real Estate App Web",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/real-estate-app-web",
+            "description": "A web application for real estate.",
+            "tags": ["Business Tools"]
+        },
+        {
+            "date": "Aug 18",
+            "title": "Rust Feed",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/rust-feed",
+            "description": "A feed reader written in Rust.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Jun 18",
+            "title": "San Code",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/san-code",
+            "description": "An online code editor.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Mar 23",
+            "title": "Spark V Spring",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/spark-v-spring",
+            "description": "A comparison between Spark and Spring.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Jan 21",
+            "title": "Switching from JS to TS",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/switching-from-js-to-ts",
+            "description": "A project documenting the switch from JavaScript to TypeScript.",
+            "tags": ["Developer Tools", "Education"]
+        },
+        {
+            "date": "Jun 20",
+            "title": "Twitter",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/twitter",
+            "description": "A Twitter clone.",
+            "tags": ["Social"]
+        },
+        {
+            "date": "Sep 21",
+            "title": "Who to Captain",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/who-to-captain",
+            "description": "A tool to help you choose your fantasy football captain.",
+            "tags": ["Sports", "AI Tools"]
+        },
+        {
+            "date": "Sep 21",
+            "title": "Who to Captain API",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/who-to-captain-api",
+            "description": "An API for the Who to Captain tool.",
+            "tags": ["Sports", "AI Tools"]
+        }
+    ],
+    "2023": [
+        {
+            "date": "Mar 21",
+            "title": "AirBNB React Native App",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/AirBNB-react-native-app",
+            "description": "A React Native clone of the AirBNB app.",
+            "tags": ["Mobile", "Business Tools"]
+        },
+        {
+            "date": "Dec 17",
+            "title": "Coding Rizz",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/coding-rizz",
+            "description": "A project to improve coding skills.",
+            "tags": ["Developer Tools", "Education"]
+        },
+        {
+            "date": "Aug 24",
+            "title": "Docker Mongo DB",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/docker-mongo-db",
+            "description": "A project to run a MongoDB database in a Docker container.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Jul 15",
+            "title": "Express CRUD App",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/express-crud-app",
+            "description": "A simple CRUD application using Express.js.",
+            "tags": ["Developer Tools"]
+        },
+        {
+            "date": "Nov 22",
+            "title": "Pharma",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/pharma",
+            "description": "An application for managing a pharmacy.",
+            "tags": ["Healthcare", "Business Tools"]
+        },
+        {
+            "date": "Dec 17",
+            "title": "TaskRoulette",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/TaskRoulette",
+            "description": "A tool to randomly assign tasks.",
+            "tags": ["Business Tools"]
+        }
+    ],
+    "2022": [
+        {
+            "date": "Sep 19",
+            "title": "Lomo-gan-san-code",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/Lomo-gan-san-code",
+            "description": "A project for generating images using a GAN.",
+            "tags": ["AI Tools"]
+        },
+        {
+            "date": "Dec 29",
+            "title": "PasswordManager",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/PasswordManager",
+            "description": "A simple password manager.",
+            "tags": ["Utilities"]
+        },
+        {
+            "date": "Dec 29",
+            "title": "Records and Tracking",
+            "link": "records_and_tracking.html",
+            "repo_link": "https://github.com/code-briomar/records_and_tracking",
+            "description": "A system for recording and tracking data.",
+            "tags": ["Business Tools"]
+        },
+        {
+            "date": "Sep 29",
+            "title": "StudyBuddy",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/StudyBuddy",
+            "description": "A tool to help students study together.",
+            "tags": ["Education"]
+        },
+        {
+            "date": "Sep 19",
+            "title": "Test Repo",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/test-repo",
+            "description": "A repository for testing purposes.",
+            "tags": ["Developer Tools"]
+        }
+    ],
+    "2021": [
+        {
+            "date": "Jul 13",
+            "title": "Chatbot",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/Chatbot",
+            "description": "A chatbot application.",
+            "tags": ["AI Tools"]
+        },
+        {
+            "date": "Jun 6",
+            "title": "Programs",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/Programs",
+            "description": "A collection of programs.",
+            "tags": ["Developer Tools"]
+        }
+    ]
 };
 
 // ============================================
@@ -215,7 +490,7 @@ function generateEntryHTML(entry) {
       <li class="timeline-item">
         ${titleLink}
         ${tagsHTML ? `<br/>${tagsHTML}` : ""}
-        ${entry.description ? `<br/>${entry.description}` : ""}
+        <p>${entry.description ? `<br/>${entry.description}` : ""}</p>
       </li>
     </ul>
   `;
