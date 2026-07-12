@@ -1,547 +1,400 @@
 // ============================================
-// DARK MODE TOGGLE
-// ============================================
-const toggleBtn = document.getElementById("toggle-dark-mode");
-const icon = toggleBtn.querySelector("i");
-
-// Check for saved theme preference or default to dark mode
-const savedTheme = localStorage.getItem("theme");
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-if (savedTheme === "light") {
-  document.body.classList.remove("dark-mode");
-  icon.classList.replace("fa-moon", "fa-sun");
-} else if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-  document.body.classList.add("dark-mode");
-  icon.classList.replace("fa-sun", "fa-moon");
-}
-
-// Toggle dark mode on button click
-toggleBtn.addEventListener("click", function () {
-  document.body.classList.toggle("dark-mode");
-
-  if (document.body.classList.contains("dark-mode")) {
-    icon.classList.remove("fa-sun");
-    icon.classList.add("fa-moon");
-    localStorage.setItem("theme", "dark");
-  } else {
-    icon.classList.remove("fa-moon");
-    icon.classList.add("fa-sun");
-    localStorage.setItem("theme", "light");
-  }
-});
-
-// ============================================
-// TAG STYLES CONFIGURATION
-// ============================================
-const tagStyles = {
-  "Document Tools": { bg: "#e0f2fe", text: "#0369a1" },
-  "Retail": { bg: "#fef3c7", text: "#92400e" },
-  "Developer Tools": { bg: "#ede9fe", text: "#5b21b6" },
-  "Customer Service": { bg: "#dcfce7", text: "#166534" },
-  "AI Tools": { bg: "#fff7ed", text: "#9a3412" },
-  "Healthcare": { bg: "#fce7f3", text: "#9d174d" },
-  "Payments": { bg: "#ecfeff", text: "#155e75" },
-  "Sports": { bg: "#fee2e2", text: "#991b1b" },
-  "Business Tools": { bg: "#e0e7ff", text: "#3730a3" },
-  "Education": { bg: "#fef9c3", text: "#854d0e" },
-  "Entertainment": { bg: "#f3e8ff", text: "#6b21a8" },
-  "Productivity": { bg: "#dbeafe", text: "#1e40af" },
-  "Agriculture": { bg: "#e0f2fe", text: "#0369a1" },
-  "Portfolio": { bg: "#fef3c7", text: "#92400e" },
-  "Events": { bg: "#ede9fe", text: "#5b21b6" },
-  "Community": { bg: "#dcfce7", text: "#166534" },
-  "Information": { bg: "#fff7ed", text: "#9a3412" },
-  "Law": { bg: "#fce7f3", text: "#9d174d" },
-  "Utilities": { bg: "#ecfeff", text: "#155e75" },
-  "Health": { bg: "#fee2e2", text: "#991b1b" },
-  "Social": { bg: "#e0e7ff", text: "#3730a3" },
-  "Mobile": { bg: "#fef9c3", text: "#854d0e" }
-};
-
-// ============================================
-// TIMELINE DATA
+// TIMELINE DATA — curated highlights, not a full repo dump
 // ============================================
 const timelineData = {
     "2026": [
         {
-            "date": "Jan 4",
-            "title": "Caregiver Web App",
+            "date": "Jul",
+            "title": "NoBait — Twitter Feed Cleaner",
             "link": "",
-            "repo_link": "https://github.com/code-briomar/caregiver_web_app",
-            "description": "A web application for caregivers to manage their clients and appointments.",
-            "tags": ["Healthcare", "Business Tools"]
+            "repo_link": "",
+            "description": "Browser extension that filters clickbait and outrage-bait from X/Twitter in real time, using an in-browser ML model (transformers.js) plus Claude/Gemini for judgment calls, with local user-guided learning so it adapts per person.",
+            "image": "",
+            "tags": ["AI Tools", "Browser Extension"]
         },
         {
-            "date": "Jan 13",
+            "date": "May",
+            "title": "Student Appointment Scheduling System",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/Student-Appointment-Scheduling-System",
+            "description": "Web system for booking and managing lecturer-student consultations, replacing ad-hoc email/office-hour scheduling with a proper calendar workflow.",
+            "image": "",
+            "tags": ["Education", "Business Tools"]
+        },
+        {
+            "date": "Jan",
+            "title": "PDF to DOCX",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/pdf-to-docx",
+            "description": "Python service that converts PDFs into editable Word documents while preserving layout — a from-scratch follow-up to the earlier OCR-based version.",
+            "image": "",
+            "tags": ["Document Tools", "AI Tools"]
+        },
+        {
+            "date": "Jan",
             "title": "Farmers Leaf Doctor",
             "link": "",
             "repo_link": "https://github.com/code-briomar/farmers-leaf-doctor",
-            "description": "An application to diagnose plant diseases from leaf images.",
+            "description": "Image-based plant disease diagnosis tool for smallholder farmers — snap a photo of a leaf, get a likely diagnosis and next steps.",
+            "image": "",
             "tags": ["AI Tools", "Agriculture"]
+        },
+        {
+            "date": "Jan",
+            "title": "Caregiver Web App",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/caregiver_web_app",
+            "description": "Client and appointment management tool for independent caregivers.",
+            "image": "",
+            "tags": ["Healthcare", "Business Tools"]
         }
     ],
     "2025": [
         {
-            "date": "Feb 27",
-            "title": "briomar.me",
-            "link": "https://briomar.me",
-            "repo_link": "https://github.com/code-briomar/briomar.me",
-            "description": "My personal website and portfolio.",
-            "tags": ["Portfolio"]
-        },
-        {
-            "date": "Mar 18",
-            "title": "C-Work API",
+            "date": "Mar",
+            "title": "Tujulishane Hub",
             "link": "",
-            "repo_link": "https://github.com/code-briomar/c-work-api",
-            "description": "An API for managing work-related tasks.",
-            "tags": ["Business Tools"]
+            "repo_link": "https://github.com/sanCode-2-0/Tujulishane-Hub",
+            "description": "Full-stack coordination platform connecting organizations, donors, and community projects — Spring Boot + Docker backend, multi-tenant approvals workflow, deployed on Render.",
+            "image": "",
+            "tags": ["Business Tools", "Community"]
         },
         {
-            "date": "Jun 4",
-            "title": "Event Promotion and Dissemination in a Campus Environment",
+            "date": "Nov",
+            "title": "StudyBuddy",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/StudyBuddy",
+            "description": "Android companion app (Kotlin) that helps students organize academic tasks and build consistent study habits.",
+            "image": "",
+            "tags": ["Education", "Mobile"]
+        },
+        {
+            "date": "Jun",
+            "title": "Campus Event Promotion Platform",
             "link": "",
             "repo_link": "https://github.com/code-briomar/Event-Promotion-and-Dissemination-in-a-Campus-Environment",
-            "description": "A system for promoting and disseminating event information on campus.",
+            "description": "University group project for promoting and disseminating campus event information — TypeScript full-stack build with a co-author.",
+            "image": "",
             "tags": ["Events", "Education"]
         },
         {
-            "date": "Jan 1",
-            "title": "Local Insights KE",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/local_insights_ke",
-            "description": "A platform for sharing local insights and knowledge in Kenya.",
-            "tags": ["Community", "Information"]
-        },
-        {
-            "date": "Mar 23",
-            "title": "Lomogan Skuli",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/lomogan-skuli",
-            "description": "An e-learning platform.",
-            "tags": ["Education"]
-        },
-        {
-            "date": "Mar 21",
-            "title": "MG Advocates Website",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/mg-advocates-website",
-            "description": "The official website for MG Advocates.",
-            "tags": ["Law"]
-        },
-        {
-            "date": "Feb 24",
+            "date": "Feb",
             "title": "Scanned PDF to Word",
             "link": "./scanned-pdf-to-word/index.html",
             "repo_link": "https://github.com/code-briomar/scannedpdf_to_word",
-            "description": "Turn scanned documents into editable Word files automatically using OCR technology.",
+            "description": "Turns scanned document images into editable Word files using OCR — the earlier proof-of-concept for what became the PDF-to-DOCX rebuild.",
+            "image": "",
             "tags": ["Document Tools", "AI Tools"]
+        },
+        {
+            "date": "Feb",
+            "title": "briomar.me",
+            "link": "https://briomar.me",
+            "repo_link": "https://github.com/code-briomar/briomar.me",
+            "description": "This portfolio site — hand-built, no framework.",
+            "image": "",
+            "tags": ["Portfolio"]
+        },
+        {
+            "date": "Jan",
+            "title": "Local Insights KE",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/local_insights_ke",
+            "description": "Android app for sharing hyperlocal knowledge and insights across Kenyan communities.",
+            "image": "",
+            "tags": ["Community", "Mobile"]
         }
     ],
     "2024": [
         {
-            "date": "Mar 22",
-            "title": "Briomar Utility TS PKG",
+            "date": "Aug",
+            "title": "ChatFlow + Chat-Flow API + Gemini Proxy",
             "link": "",
-            "repo_link": "https://github.com/code-briomar/briomar-utility-ts-pkg",
-            "description": "A TypeScript package with utility functions.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Jun 22",
-            "title": "Chat-Flow API",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/chat-flow-api",
-            "description": "An API for creating chatbots.",
+            "repo_link": "https://github.com/code-briomar/chatFlow",
+            "description": "AI chat assistant suite: Java/Spring backend API doing OCR and suggestion generation, an Android client, and a proxy service that routes requests to Google Gemini — three services built to work together.",
+            "image": "",
             "tags": ["AI Tools", "Developer Tools"]
         },
         {
-            "date": "Aug 18",
-            "title": "ChatFlow",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/chatFlow",
-            "description": "A chatbot application.",
-            "tags": ["AI Tools"]
-        },
-        {
-            "date": "Apr 22",
-            "title": "Daraja-Rust-API",
+            "date": "Apr",
+            "title": "Daraja Rust API",
             "link": "",
             "repo_link": "https://github.com/code-briomar/daraja-rust-api",
-            "description": "A Rust API for the M-Pesa Daraja API.",
+            "description": "Rust wrapper around Safaricom's Daraja API for M-Pesa payments — handles auth, STK push, and callback verification.",
+            "image": "",
             "tags": ["Payments", "Developer Tools"]
         },
         {
-            "date": "Aug 8",
-            "title": "Downloads Organiser",
+            "date": "Jun",
+            "title": "san-code",
             "link": "",
-            "repo_link": "https://github.com/code-briomar/downloads-organiser",
-            "description": "A tool for organizing downloaded files.",
-            "tags": ["Utilities"]
+            "repo_link": "https://github.com/code-briomar/san-code",
+            "description": "Next.js rebuild of an earlier PHP hospital records system, modernizing the stack while carrying forward years of real production use.",
+            "image": "",
+            "tags": ["Healthcare", "Developer Tools"]
         },
         {
-            "date": "Jul 2",
-            "title": "Google Gemini Proxy for ChatFlow",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/google-gemini-proxy-for-chatflow",
-            "description": "A proxy for using Google Gemini with ChatFlow.",
-            "tags": ["AI Tools", "Developer Tools"]
-        },
-        {
-            "date": "Jan 21",
-            "title": "Java Leetcode Scripts",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/java-leetcode-scripts",
-            "description": "A collection of Java scripts for solving Leetcode problems.",
-            "tags": ["Developer Tools", "Education"]
-        },
-        {
-            "date": "Jun 20",
-            "title": "KE Accountability",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/ke-accountability",
-            "description": "A project to promote accountability in Kenya.",
-            "tags": ["Community"]
-        },
-        {
-            "date": "Aug 15",
-            "title": "Learning Rust",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/learning-rust",
-            "description": "A repository for my journey of learning Rust.",
-            "tags": ["Developer Tools", "Education"]
-        },
-        {
-            "date": "May 1",
-            "title": "Mewing Counter",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/mewing-counter",
-            "description": "An app to count mewing sessions.",
-            "tags": ["Health"]
-        },
-        {
-            "date": "Aug 31",
-            "title": "Minigrep",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/minigrep",
-            "description": "A mini version of the grep command-line tool.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Jul 23",
-            "title": "MOH Code",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/moh-code",
-            "description": "A collection of code related to the Ministry of Health.",
-            "tags": ["Healthcare"]
-        },
-        {
-            "date": "Aug 18",
-            "title": "Ollama App",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/ollama-app",
-            "description": "An application that uses the Ollama API.",
-            "tags": ["AI Tools"]
-        },
-        {
-            "date": "Jan 12",
-            "title": "POS System using AL in D-365",
+            "date": "Jan",
+            "title": "POS System using AL in D365",
             "link": "",
             "repo_link": "https://github.com/code-briomar/POS-System-using-AL-in-D-365",
-            "description": "A Point of Sale system using AL in Dynamics 365.",
+            "description": "Point-of-sale extension built in AL for Microsoft Dynamics 365 Business Central.",
+            "image": "",
             "tags": ["Business Tools", "Retail"]
         },
         {
-            "date": "Jun 22",
+            "date": "Jun",
             "title": "Real Estate App Web",
             "link": "",
             "repo_link": "https://github.com/code-briomar/real-estate-app-web",
-            "description": "A web application for real estate.",
+            "description": "Property listing and search web app built for a real estate client.",
+            "image": "",
             "tags": ["Business Tools"]
         },
         {
-            "date": "Aug 18",
-            "title": "Rust Feed",
+            "date": "Jun",
+            "title": "KE Accountability",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/ke-accountability",
+            "description": "Open, public vote-tallying and accountability tool built for transparency during Kenyan elections.",
+            "image": "",
+            "tags": ["Community"]
+        },
+        {
+            "date": "Aug",
+            "title": "Rust Learning: Feed, Minigrep, Downloads Organiser",
             "link": "",
             "repo_link": "https://github.com/code-briomar/rust-feed",
-            "description": "A feed reader written in Rust.",
+            "description": "A run of small Rust systems projects — a social feed API, a grep clone, and a file-organizing CLI tool — building fluency in the language.",
+            "image": "",
             "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Jun 18",
-            "title": "San Code",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/san-code",
-            "description": "An online code editor.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Mar 23",
-            "title": "Spark V Spring",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/spark-v-spring",
-            "description": "A comparison between Spark and Spring.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Jan 21",
-            "title": "Switching from JS to TS",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/switching-from-js-to-ts",
-            "description": "A project documenting the switch from JavaScript to TypeScript.",
-            "tags": ["Developer Tools", "Education"]
-        },
-        {
-            "date": "Jun 20",
-            "title": "Twitter",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/twitter",
-            "description": "A Twitter clone.",
-            "tags": ["Social"]
-        },
-        {
-            "date": "Sep 21",
-            "title": "Who to Captain",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/who-to-captain",
-            "description": "A tool to help you choose your fantasy football captain.",
-            "tags": ["Sports", "AI Tools"]
-        },
-        {
-            "date": "Sep 21",
-            "title": "Who to Captain API",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/who-to-captain-api",
-            "description": "An API for the Who to Captain tool.",
-            "tags": ["Sports", "AI Tools"]
         }
     ],
     "2023": [
         {
-            "date": "Mar 21",
+            "date": "Dec",
+            "title": "Who to Captain + API",
+            "link": "",
+            "repo_link": "https://github.com/code-briomar/who-to-captain-api",
+            "description": "Fantasy Premier League captaincy advisor — API analyzes player form and fixtures to recommend who to captain each gameweek.",
+            "image": "",
+            "tags": ["Sports", "AI Tools"]
+        },
+        {
+            "date": "Mar",
             "title": "AirBNB React Native App",
             "link": "",
             "repo_link": "https://github.com/code-briomar/AirBNB-react-native-app",
-            "description": "A React Native clone of the AirBNB app.",
+            "description": "Cross-platform clone of the AirBNB mobile app built in React Native, covering listing browsing, search, and booking flows.",
+            "image": "",
             "tags": ["Mobile", "Business Tools"]
         },
         {
-            "date": "Dec 17",
-            "title": "Coding Rizz",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/coding-rizz",
-            "description": "A project to improve coding skills.",
-            "tags": ["Developer Tools", "Education"]
-        },
-        {
-            "date": "Aug 24",
-            "title": "Docker Mongo DB",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/docker-mongo-db",
-            "description": "A project to run a MongoDB database in a Docker container.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Jul 15",
-            "title": "Express CRUD App",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/express-crud-app",
-            "description": "A simple CRUD application using Express.js.",
-            "tags": ["Developer Tools"]
-        },
-        {
-            "date": "Nov 22",
+            "date": "Oct",
             "title": "Pharma",
             "link": "",
             "repo_link": "https://github.com/code-briomar/pharma",
-            "description": "An application for managing a pharmacy.",
+            "description": "Java OOP project for managing pharmacy inventory and sales.",
+            "image": "",
             "tags": ["Healthcare", "Business Tools"]
         },
         {
-            "date": "Dec 17",
-            "title": "TaskRoulette",
+            "date": "Jul",
+            "title": "Express CRUD App",
             "link": "",
-            "repo_link": "https://github.com/code-briomar/TaskRoulette",
-            "description": "A tool to randomly assign tasks.",
-            "tags": ["Business Tools"]
+            "repo_link": "https://github.com/code-briomar/express-crud-app",
+            "description": "Express.js API with a Material UI frontend covering full CRUD operations — an early full-stack reference build.",
+            "image": "",
+            "tags": ["Developer Tools"]
         }
     ],
     "2022": [
         {
-            "date": "Sep 19",
-            "title": "Lomo-gan-san-code",
+            "date": "Sep",
+            "title": "Health Records Management System",
             "link": "",
             "repo_link": "https://github.com/code-briomar/Lomo-gan-san-code",
-            "description": "A project for generating images using a GAN.",
-            "tags": ["AI Tools"]
+            "description": "Digital health-records platform built and deployed for the sanatorium at Alliance High School — tracks student medical history, medication schedules, and visit logs. In real use from 2021 through 2024, later rebuilt as san-code.",
+            "image": "",
+            "tags": ["Healthcare", "Business Tools"]
         },
         {
-            "date": "Dec 29",
-            "title": "PasswordManager",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/PasswordManager",
-            "description": "A simple password manager.",
-            "tags": ["Utilities"]
-        },
-        {
-            "date": "Dec 29",
+            "date": "Dec",
             "title": "Records and Tracking",
             "link": "records_and_tracking.html",
             "repo_link": "https://github.com/code-briomar/records_and_tracking",
-            "description": "A system for recording and tracking data.",
+            "description": "General-purpose records and tracking system built as a reusable pattern for the health-records work.",
+            "image": "",
             "tags": ["Business Tools"]
         },
         {
-            "date": "Sep 29",
-            "title": "StudyBuddy",
+            "date": "Sep",
+            "title": "StudyBuddy (early)",
             "link": "",
             "repo_link": "https://github.com/code-briomar/StudyBuddy",
-            "description": "A tool to help students study together.",
+            "description": "First pass at a study-companion tool for students, later rebuilt natively for Android in 2025.",
+            "image": "",
             "tags": ["Education"]
-        },
-        {
-            "date": "Sep 19",
-            "title": "Test Repo",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/test-repo",
-            "description": "A repository for testing purposes.",
-            "tags": ["Developer Tools"]
         }
     ],
     "2021": [
         {
-            "date": "Jul 13",
+            "date": "Jul",
             "title": "Chatbot",
             "link": "",
             "repo_link": "https://github.com/code-briomar/Chatbot",
-            "description": "A chatbot application.",
+            "description": "PHP-based chatbot — one of the first end-to-end web apps in this timeline.",
+            "image": "",
             "tags": ["AI Tools"]
-        },
-        {
-            "date": "Jun 6",
-            "title": "Programs",
-            "link": "",
-            "repo_link": "https://github.com/code-briomar/Programs",
-            "description": "A collection of programs.",
-            "tags": ["Developer Tools"]
         }
     ]
 };
 
 // ============================================
-// HELPER FUNCTIONS
+// RENDER YEAR PLATES — one scroll-snap section per year,
+// with a project carousel inside the right panel
 // ============================================
+const LEFT_COLORS = ["blush-linen", "candlelight", "sage-whisper"];
+const RIGHT_COLORS = ["paper", "candlelight"];
 
-/**
- * Validates that all tags used in timeline data have corresponding styles
- */
-function validateTags() {
-  const missingTags = new Set();
-  
-  Object.values(timelineData).flat().forEach(project => {
-    project.tags?.forEach(tag => {
-      if (!tagStyles[tag]) {
-        missingTags.add(tag);
-      }
-    });
-  });
-  
-  if (missingTags.size > 0) {
-    console.warn("⚠️ Missing styles for tags:", Array.from(missingTags));
-  }
-}
+function generateProjectInner(entry, year) {
+  const href = entry.link || entry.repo_link;
+  const tagsHTML = (entry.tags || [])
+    .map((tag) => `<span class="tag">${tag}</span>`)
+    .join("");
+  const titleHTML = href
+    ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${entry.title}</a>`
+    : entry.title;
 
-/**
- * Generates HTML for project tags with inline styles
- * @param {string[]} tags - Array of tag names
- * @returns {string} HTML string for tags
- */
-function generateTagsHTML(tags) {
-  if (!tags || tags.length === 0) return "";
-  
-  return tags
-    .map(tag => {
-      const style = tagStyles[tag];
-      if (!style) {
-        console.warn(`⚠️ No style found for tag: "${tag}"`);
-        return `<span class="tag">${tag}</span>`;
-      }
-      return `<span class="tag" style="background: ${style.bg}; color: ${style.text};">${tag}</span>`;
-    })
-    .join(" ");
-}
-
-/**
- * Generates HTML for a single timeline entry
- * @param {Object} entry - Timeline entry data
- * @returns {string} HTML string for the entry
- */
-function generateEntryHTML(entry) {
-  const tagsHTML = generateTagsHTML(entry.tags);
-  
-  // Determine link behavior
-  let titleLink = `<a href="${entry?.link || "javascript:void(0)" }" rel="noopener noreferrer">${entry?.title}</a>`;
-
-  
   return `
-    <h4>${entry.date}</h4>
-    <ul>
-      <li class="timeline-item">
-        ${titleLink}
-        ${tagsHTML ? `<br/>${tagsHTML}` : ""}
-        <p>${entry.description ? `<br/>${entry.description}` : ""}</p>
-      </li>
-    </ul>
+    <span class="project-date">${entry.date} ${year}</span>
+    <h2 class="project-title">${titleHTML}</h2>
+    <div class="project-tags">${tagsHTML}</div>
+    <p class="project-desc">${entry.description || ""}</p>
   `;
 }
 
-/**
- * Renders the complete timeline to the DOM
- */
-function renderTimeline() {
-  const container = document.getElementById("timeline-content");
-  
-  if (!container) {
-    console.error("Timeline container not found!");
-    return;
-  }
-  
-  // Clear existing content
-  container.innerHTML = "";
-  
-  // Sort years in descending order (newest first)
+function renderPlates() {
+  const container = document.getElementById("plates");
   const sortedYears = Object.entries(timelineData).sort((a, b) => b[0] - a[0]);
-  
-  sortedYears.forEach(([year, entries]) => {
-    const yearSection = document.createElement("section");
-    yearSection.className = "year";
-    
-    // Add year heading
-    const yearHeading = document.createElement("h3");
-    yearHeading.textContent = year;
-    yearSection.appendChild(yearHeading);
-    
-    // Add each entry for this year
-    entries.forEach(entry => {
-      const entrySection = document.createElement("section");
-      entrySection.innerHTML = generateEntryHTML(entry);
-      yearSection.appendChild(entrySection);
-    });
-    
-    container.appendChild(yearSection);
+
+  return sortedYears.map(([year, entries], i) => {
+    const plate = document.createElement("section");
+    plate.className = "plate year-plate";
+    plate.style.background = `var(--color-${LEFT_COLORS[i % LEFT_COLORS.length]})`;
+
+    const rightBg =
+      RIGHT_COLORS[i % RIGHT_COLORS.length] === "paper"
+        ? "var(--color-paper)"
+        : "var(--color-candlelight)";
+
+    plate.innerHTML = `
+      <div class="panel left">
+        <img class="project-image" alt="" />
+        <div class="year-label">${year}</div>
+      </div>
+      <div class="panel right" style="background:${rightBg}">
+        <div class="project-viewport">${generateProjectInner(entries[0], year)}</div>
+      </div>
+    `;
+
+    container.appendChild(plate);
+
+    return {
+      plate,
+      year,
+      entries,
+      index: 0,
+      viewport: plate.querySelector(".project-viewport"),
+      image: plate.querySelector(".project-image"),
+    };
   });
+}
+
+function updateImage(yp) {
+  const src = yp.entries[yp.index].image;
+  if (src) {
+    yp.image.src = src;
+    yp.plate.classList.add("has-image");
+  } else {
+    yp.image.removeAttribute("src");
+    yp.plate.classList.remove("has-image");
+  }
+}
+
+// ============================================
+// PAGINATION — arrows step through projects within a year;
+// stepping past the first/last project moves to the next/prev year
+// ============================================
+function setupPagination(yearPlates) {
+  const counter = document.querySelector(".counter");
+  const prevBtn = document.querySelector(".arrow-left");
+  const nextBtn = document.querySelector(".circle-next");
+
+  let current = 0;
+
+  const render = () => {
+    const yp = yearPlates[current];
+    yp.viewport.innerHTML = generateProjectInner(yp.entries[yp.index], yp.year);
+    updateImage(yp);
+    counter.textContent = `${yp.index + 1}/${yp.entries.length}`;
+  };
+
+  const goToYear = (index, projectIndex) => {
+    current = Math.max(0, Math.min(yearPlates.length - 1, index));
+    yearPlates[current].index = projectIndex;
+    yearPlates[current].plate.scrollIntoView({ behavior: "smooth" });
+    render();
+  };
+
+  const next = () => {
+    const yp = yearPlates[current];
+    if (yp.index < yp.entries.length - 1) {
+      yp.index++;
+      render();
+    } else if (current < yearPlates.length - 1) {
+      goToYear(current + 1, 0);
+    }
+  };
+
+  const prev = () => {
+    const yp = yearPlates[current];
+    if (yp.index > 0) {
+      yp.index--;
+      render();
+    } else if (current > 0) {
+      goToYear(current - 1, yearPlates[current - 1].entries.length - 1);
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const idx = yearPlates.findIndex((yp) => yp.plate === entry.target);
+          if (idx !== -1 && idx !== current) {
+            current = idx;
+            yearPlates[current].index = 0;
+            render();
+          }
+        }
+      });
+    },
+    { threshold: 0.6 }
+  );
+
+  yearPlates.forEach((yp) => observer.observe(yp.plate));
+
+  prevBtn.addEventListener("click", prev);
+  nextBtn.addEventListener("click", next);
+
+  render();
 }
 
 // ============================================
 // INITIALIZATION
 // ============================================
-document.addEventListener("DOMContentLoaded", function() {
-  // Validate tags on load
-  validateTags();
-  
-  // Render the timeline
-  renderTimeline();
-  
-  console.log("✅ Timeline loaded successfully!");
+document.addEventListener("DOMContentLoaded", function () {
+  const yearPlates = renderPlates();
+  setupPagination(yearPlates);
 });
