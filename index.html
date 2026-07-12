@@ -1,28 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Briane Lomoni</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3rd year student Strathmore / Cofounder Lomogan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="contact-badge" href="#" id="contact-badge-btn">Contact &rarr;<br>Briane</a>
 
-  <body>
-    <a class="contact-badge" href="mailto:kapolonbraine@gmail.com">Contact →<br />Braine</a>
+  <section class="plate hero">
+    <h1 class="display">&copy; Briane<br>Lomoni</h1>
+    <div class="arrow-down" aria-hidden="true">&darr;</div>
+  </section>
 
-    <section class="plate hero">
-      <h1 class="display">© Briane<br />Lomoni</h1>
-      <div class="arrow-down" aria-hidden="true">↓</div>
-    </section>
+  <div id="plates"></div>
 
-    <div id="plates"></div>
+  <nav class="pagination">
+    <button class="arrow-left" aria-label="Previous section">&larr;</button>
+    <span class="counter">1/1</span>
+    <button class="circle-next" aria-label="Next section">&rarr;</button>
+  </nav>
 
-    <nav class="pagination">
-      <button class="arrow-left" aria-label="Previous section">←</button>
-      <span class="counter">1/1</span>
-      <button class="circle-next" aria-label="Next section">→</button>
-    </nav>
+  <!-- Premium About Me Overlay -->
+  <div id="about-overlay" class="about-overlay" aria-hidden="true">
+    <button class="close-overlay" aria-label="Close overlay">&times;</button>
+    <div class="overlay-content">
+      <div class="panel left">
+        <div class="profile-image-container">
+          <img class="profile-image" src="images/me.jpg" alt="Briane Lomoni">
+        </div>
+      </div>
+      <div class="panel right">
+        <div class="about-content">
+          <span class="about-tagline">Hello, I'm Briane</span>
+          <h2 class="about-title">Full-Stack & AI Systems Developer</h2>
+          <p class="about-bio">
+            I build practical tools that solve real-world problems. With experience spanning custom enterprise platforms (like a clinic database deployed in active school use for 3+ years) to real-time local AI extensions, I focus on writing high-performance code and designing resilient architectures.
+          </p>
+          
+          <div class="skills-section">
+            <h3 class="skills-title">Core Toolkit</h3>
+            <div class="skills-categories">
+              <div class="skills-category">
+                <strong>Languages:</strong> Java, Python, Rust, TypeScript, PHP
+              </div>
+              <div class="skills-category">
+                <strong>Frameworks & Tools:</strong> Spring Boot, Next.js, Docker, PostgreSQL, Linux
+              </div>
+              <div class="skills-category">
+                <strong>Specialties:</strong> Local ML/AI Integration, REST APIs, Cross-Platform Mobile (Kotlin, React Native)
+              </div>
+            </div>
+          </div>
 
-    <script src="script.js"></script>
-  </body>
+          <div class="about-links">
+            <a href="mailto:kapolonbraine@gmail.com" class="btn btn-primary">Get In Touch</a>
+            <a href="https://github.com/code-briomar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GitHub Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
 </html>
