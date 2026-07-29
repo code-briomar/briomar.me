@@ -394,9 +394,7 @@ function generateArchiveCardHTML(entry) {
         <span>${entry.date} ${entry.year}</span>
       </div>
       <h3 class="archive-card-title">${titleHTML}</h3>
-      <div class="archive-card-tags">
-        ${(entry.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}
-      </div>
+      <div class="archive-card-tags">${(entry.tags || []).join(' • ')}</div>
       <p class="archive-card-desc">${entry.description || ''}</p>
       ${githubLink}
     </div>
@@ -482,6 +480,53 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="archive-grid">
         ${archiveProjects.map(generateArchiveCardHTML).join('')}
       </div>
+
+      <!-- Premium E-Commerce Footer -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-col footer-col-large">
+            <h4 class="footer-title">Briane Lomoni</h4>
+            <p class="footer-text">
+              Junior full-stack developer studying at Strathmore University and co-founding Lomogan. Focuses on robust system architectures, REST APIs, and local ML/AI utilities.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4 class="footer-title">Navigation</h4>
+            <ul class="footer-links">
+              <li><a href="#" id="footer-btn-top">Back to Top</a></li>
+              <li><a href="#" id="footer-btn-about">About Me</a></li>
+              <li><a href="mailto:kapolonbraine@gmail.com">Get in Touch</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4 class="footer-title">Boring Legal Stuff</h4>
+            <ul class="footer-links">
+              <li><a href="#" id="footer-btn-tos">Terms of Service</a></li>
+              <li><a href="#" id="footer-btn-privacy">Privacy Policy</a></li>
+              <li><a href="#" id="footer-btn-refund">Refund Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4 class="footer-title">Connect</h4>
+            <ul class="footer-links">
+              <li><a href="https://github.com/code-briomar" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="mailto:kapolonbraine@gmail.com">Email</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copy">
+            &copy; 2026 Briane Lomoni. Powered by raw passion and caffeine.
+          </div>
+          <div class="footer-payments">
+            <span>Accepted:</span>
+            <span class="payment-badge">Code</span>
+            <span class="payment-badge">Coffee</span>
+            <span class="payment-badge">Pizza</span>
+            <span class="payment-badge">Equity</span>
+          </div>
+        </div>
+      </footer>
     </div>
   `;
   container.appendChild(archiveSection);
@@ -571,4 +616,94 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  // 6. Setup Mock Legal Modals (Easter Eggs)
+  const legalTexts = {
+    tos: {
+      title: "Terms of Service",
+      body: `
+        <h3>1. Acceptance of Terms</h3>
+        <p>By accessing or browsing this portfolio, you enter a binding agreement to consider Briane Lomoni for your next open developer role. If you are a recruiter, you are hereby requested to schedule an interview within 7 business days.</p>
+        
+        <h3>2. Intellectual Property</h3>
+        <p>All source code, design mockups, and text are the intellectual property of Briane Lomoni. You are permitted to fork, copy, and study the code for learning purposes. Direct plagiarism for commercial use without attribution is prohibited (unless you buy him pizza first).</p>
+        
+        <h3>3. Limitation of Liability</h3>
+        <p>Briane Lomoni is not liable for any sudden urges to hire him immediately, nor for any server crashes caused by the sheer performance of his spring boot backend APIs.</p>
+      `
+    },
+    privacy: {
+      title: "Privacy Policy",
+      body: `
+        <h3>1. Information We Do NOT Collect</h3>
+        <p>We collect exactly zero personal data. We do not use tracking cookies, tracking pixels, or database logs. Your visit is entirely private and anonymous.</p>
+        
+        <h3>2. Local Storage & In-Memory State</h3>
+        <p>The only thing we track is whether you are scrolling up or down, and that is handled entirely in-memory by your browser to update the slide pagination. No data leaves your machine.</p>
+        
+        <h3>3. Third-Party Links</h3>
+        <p>This website links to GitHub. If you click those links, their privacy terms apply. We hope you use that privacy to give stars to our repositories!</p>
+      `
+    },
+    refund: {
+      title: "Refund Policy",
+      body: `
+        <h3>1. 100% Satisfaction Guarantee</h3>
+        <p>Viewing this portfolio is 100% free of charge. If you are not completely satisfied with your experience, you are entitled to a full refund of €0.00.</p>
+        
+        <h3>2. Return Process</h3>
+        <p>To request your refund, please send an email to kapolonbraine@gmail.com with the subject line <em>"I want my €0.00 back"</em>. We will process your return and refund exactly €0.00 to your bank account within 3-5 business days.</p>
+      `
+    }
+  };
+
+  const legalOverlay = document.getElementById('legal-overlay');
+  const legalTitle = document.getElementById('legal-title');
+  const legalBody = document.getElementById('legal-body');
+  const closeLegalBtn = document.querySelector('.close-legal-overlay');
+
+  function openLegal(key) {
+    if (!legalOverlay || !legalTexts[key]) return;
+    legalTitle.textContent = legalTexts[key].title;
+    legalBody.innerHTML = legalTexts[key].body;
+    legalOverlay.classList.add('active');
+    legalOverlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeLegal() {
+    if (!legalOverlay) return;
+    legalOverlay.classList.remove('active');
+    legalOverlay.setAttribute('aria-hidden', 'true');
+  }
+
+  document.getElementById('footer-btn-tos')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('tos'); });
+  document.getElementById('footer-btn-privacy')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('privacy'); });
+  document.getElementById('footer-btn-refund')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('refund'); });
+
+  document.getElementById('footer-btn-about')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    aboutOverlay?.classList.add('active');
+    aboutOverlay?.setAttribute('aria-hidden', 'false');
+  });
+
+  document.getElementById('footer-btn-top')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    plates[0]?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  closeLegalBtn?.addEventListener('click', closeLegal);
+
+  // Close legal on backdrop click
+  legalOverlay?.addEventListener('click', (e) => {
+    if (e.target === legalOverlay || e.target.classList.contains('legal-overlay-content')) {
+      closeLegal();
+    }
+  });
+
+  // Close legal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && legalOverlay?.classList.contains('active')) {
+      closeLegal();
+    }
+  });
 });
